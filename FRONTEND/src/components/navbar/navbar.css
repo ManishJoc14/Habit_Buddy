@@ -1,0 +1,12 @@
+.addbutton{
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    font-size: .9rem;
+}
+.addbutton > span{
+    font-size: 20px;
+    border: 2px solid white;
+    border-radius: 50%;
+    margin-right: 10px;
+}
