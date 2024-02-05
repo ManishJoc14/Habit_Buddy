@@ -1,19 +1,21 @@
-import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import { Dropdown } from "flowbite-react";
 import { checkNoteAsync, deleteNoteAsync } from "../../redux/thunk";
 import "./Note.css";
 import { formatStartDate } from "../../utils/formatStartDate";
 import { getDaysLeft } from "../../utils/getDaysLeft";
 import NoteHeader from "./NoteHeader";
+import Calenderstrip from "../calenderStrip";
+import { getCurrentday } from './../../utils/getCurrentday';
 
 const Notes = () => {
   const [noteToBeRendered, setNotesToBeRendered] = useState([]);
+  const [selecteddate, setSelectedDate] = useState(getCurrentday());
+
+
 
   const dispatch = useDispatch();
-
- 
 
   const handleDelete = (e, id) => {
     try {
@@ -31,9 +33,11 @@ const Notes = () => {
     }
   };
   const handlechange = () => {};
+
   return (
     <>
-      <NoteHeader setNotesToBeRendered={setNotesToBeRendered}/>
+      <Calenderstrip setSelectedDate={setSelectedDate}/>
+      <NoteHeader setNotesToBeRendered={setNotesToBeRendered} selecteddate={selecteddate} />
       <div className="grid sm:grid-cols-1 lg:grid-cols-3 md:grid-cols-2 gap-4 mb-4">
         {noteToBeRendered.length > 0 ? (
           <>
@@ -84,7 +88,8 @@ const Notes = () => {
                 <p className="checkbox-container">
                   {" "}
                   <span className="daysleft">
-                    {getDaysLeft(new Date().toISOString(), note.endDate)} Days left
+                    {getDaysLeft(new Date().toISOString(), note.endDate)} Days
+                    left
                   </span>{" "}
                   <input
                     type="checkbox"

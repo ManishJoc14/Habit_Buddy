@@ -1,49 +1,57 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
-import { getCurrentDate } from "./../../utils/getcurrentTime";
+// import { useLocation } from "react-router-dom";
+// import { getCurrentDate } from "./../../utils/getcurrentTime";
 import "./Note.css";
-import { getNextDay } from "../../utils/getNextDay";
+// import { getNextDay } from "../../utils/getNextDay";
 
-const NoteHeader = ({ setNotesToBeRendered }) => {
-  const date = getCurrentDate();
-  const { pathname } = useLocation();
-  const currentDate = new Date().toISOString().split("T")[0];
+const NoteHeader = ({ setNotesToBeRendered, selecteddate }) => {
+  // const date = getCurrentDate();
+  // const { pathname } = useLocation();
   const notes = useSelector((state) => state.notes.notes);
-  const [selectedItem, setSelectedItem] = useState("today");
+  // const [selectedItem, setSelectedItem] = useState("today");
 
-  const toadysNotes = notes.filter((note) => {
-    const startDate = note.startDate.split("T")[0];
-    return currentDate === startDate;
-  });
+  
+  useEffect(()=>{
+    const notesOfSelectedDate = notes.filter((note) => {
+      const startDate = note.startDate.split("T")[0];
+      return selecteddate === startDate;
+    });
+    setNotesToBeRendered(notesOfSelectedDate);
+  }, [selecteddate,setNotesToBeRendered, notes])
 
-  const tomorrowsNotes = notes.filter((note) => {
-    const startDate = note.startDate;
-    return startDate.split("T")[0] === getNextDay(currentDate).split("T")[0];
-  });
+  // const toadysNotes = notes.filter((note) => {
+  //   const startDate = note.startDate.split("T")[0];
+  //   return currentDate === startDate;
+  // });
 
-  const filteredNotes =
-    pathname === "/tasks" || pathname === "/" ? toadysNotes : notes;
+  // const tomorrowsNotes = notes.filter((note) => {
+  //   const startDate = note.startDate;
+  //   return startDate.split("T")[0] === getNextDay(currentDate).split("T")[0];
+  // });
 
-  useEffect(() => {
-    setNotesToBeRendered(filteredNotes);
-  }, [pathname, currentDate, notes]);
+  // const filteredNotes =
+  //   pathname === "/tasks" || pathname === "/" ? toadysNotes : notes;
 
-  const setTodaysNotes = () => {
-    setSelectedItem("today");
-    setNotesToBeRendered(toadysNotes);
-  };
-  const setTomorrowsNotes = () => {
-    setSelectedItem("tomorrow");
-    setNotesToBeRendered(tomorrowsNotes);
-  };
-  const setAllNotes = () => {
-    setSelectedItem("all");
-    setNotesToBeRendered(notes);
-  };
+  // useEffect(() => {
+  //   setNotesToBeRendered(filteredNotes);
+  // }, [pathname, currentDate, notes]);
+
+  // const setTodaysNotes = () => {
+  //   setSelectedItem("today");
+  //   setNotesToBeRendered(toadysNotes);
+  // };
+  // const setTomorrowsNotes = () => {
+  //   setSelectedItem("tomorrow");
+  //   setNotesToBeRendered(tomorrowsNotes);
+  // };
+  // const setAllNotes = () => {
+  //   setSelectedItem("all");
+  //   setNotesToBeRendered(notes);
+  // };
   return (
     <>
-      <div className="projects-section-header">
+      {/* <div className="projects-section-header">
         <p>Tasks</p>
         <p className="time">{date}</p>
       </div>
@@ -75,7 +83,7 @@ const NoteHeader = ({ setNotesToBeRendered }) => {
           <span className="status-number">{notes.length}</span>
           <span className="status-type">Total</span>
         </div>
-      </div>
+      </div> */}
     </>
   );
 };
