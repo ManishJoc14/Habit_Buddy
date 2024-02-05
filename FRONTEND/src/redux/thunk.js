@@ -6,7 +6,7 @@ export const addNoteAsync = createAsyncThunk(
   async ({ id, note, category, startDate, endDate, description, priority, done}, thunkAPI) => {
     try {
       const response = await add_Note({id, note, category, startDate, endDate, description, priority, done});
-      console.log(response.data);
+      // console.log(response.data);
       return response?.data; // object; note which was added  {id, note, category, startDate, endDate, description, priority, done}
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response.data);

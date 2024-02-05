@@ -10,25 +10,10 @@ import NoteHeader from "./NoteHeader";
 
 const Notes = () => {
   const [noteToBeRendered, setNotesToBeRendered] = useState([]);
-  const { pathname } = useLocation();
-  const currentDate = new Date().toISOString().split("T")[0];
-  const notes = useSelector((state) => state.notes.notes);
+
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    const fetchData = () => {
-      const filteredNotes =
-        pathname === "/today" || pathname === "/" ? toadysNotes : notes;
-      setNotesToBeRendered(filteredNotes);
-    };
-
-    fetchData();
-  }, [pathname, currentDate, notes]);
-
-  const toadysNotes = notes.filter((note) => {
-    const startDate = note.startDate.split("T")[0];
-    return currentDate === startDate;
-  });
+ 
 
   const handleDelete = (e, id) => {
     try {
@@ -38,19 +23,17 @@ const Notes = () => {
     }
   };
 
-  const handleCheck = (e, id, done)=>{
+  const handleCheck = (e, id, done) => {
     try {
       dispatch(checkNoteAsync({ id, done }));
     } catch (error) {
       console.log("Error deleting note" + error);
     }
-  }
-  const handlechange = ()=>{
-
-  }
+  };
+  const handlechange = () => {};
   return (
     <>
-      <NoteHeader/>
+      <NoteHeader setNotesToBeRendered={setNotesToBeRendered}/>
       <div className="grid sm:grid-cols-1 lg:grid-cols-3 md:grid-cols-2 gap-4 mb-4">
         {noteToBeRendered.length > 0 ? (
           <>
@@ -61,7 +44,8 @@ const Notes = () => {
               >
                 <span className="note-header">
                   <span className={`category ${note.category}`}>
-                    {note.category} | {formatStartDate(note.startDate)} | {note.priority}{" "}
+                    {note.category} | {formatStartDate(note.startDate)} |{" "}
+                    {note.priority}{" "}
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       className="flag"
@@ -93,12 +77,23 @@ const Notes = () => {
                     </Dropdown.Item>
                   </Dropdown>
                 </span>
-                
+
                 <p className="note-title">{note.note}</p>
                 <p className="note-description">{note.description}</p>
                 <hr className="hrline" />
-                <p className="checkbox-container"> <span className="daysleft">{getDaysLeft(note.startDate, note.endDate)} Days left</span> <input type="checkbox" value={note.done} onChange={handlechange} onClick={(e)=>handleCheck(e,note.id, note.done)} checked={note.done === true}/></p>
-                
+                <p className="checkbox-container">
+                  {" "}
+                  <span className="daysleft">
+                    {getDaysLeft(new Date().toISOString(), note.endDate)} Days left
+                  </span>{" "}
+                  <input
+                    type="checkbox"
+                    value={note.done}
+                    onChange={handlechange}
+                    onClick={(e) => handleCheck(e, note.id, note.done)}
+                    checked={note.done === true}
+                  />
+                </p>
               </div>
             ))}
           </>

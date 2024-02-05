@@ -1,11 +1,10 @@
 #define CROW_MAIN
 #include <crow/crow.h>
 #include <crow/app.h>
-#include <crow/nlohmanjson.hpp>
 #include <crow/middlewares/cors.h>
+#include <nlohmann/json.hpp>
 #include <iostream>
 #include <fstream>
-
 
 using json = nlohmann::json;
 
@@ -13,6 +12,7 @@ class NoteManager
 {
 private:
     json notes;
+   static const std::string filePath ;
 
 public:
     // Constructor to read notes from a JSON file
@@ -25,7 +25,7 @@ public:
     void readFromFile()
     {
         // Open the file for reading
-        std::ifstream file("./notes.json");
+        std::ifstream file(NoteManager::filePath);
         if (file.is_open())
         {
             // Check if the file is not empty
@@ -110,7 +110,7 @@ public:
     void saveToFile()
     {
         // Open the file for writing
-        std::ofstream file("./notes.json");
+        std::ofstream file(NoteManager::filePath);
         if (file.is_open())
         {
             // Write the notes to the file in a pretty-printed format
@@ -126,6 +126,8 @@ public:
     }
 };
 
+const std::string NoteManager::filePath = "C:/Users/manis/OneDrive/Desktop/Habit-Buddy/CPPBACKEND/notesData.json";
+
 int main()
 {
     crow::App<crow::CORSHandler> app;
@@ -136,7 +138,6 @@ int main()
 
     // Set the global CORS rules to allow any origin and method
     cors.global().origin("*");
-
 
     // Route to add a new note
     CROW_ROUTE(app, "/addNote")
