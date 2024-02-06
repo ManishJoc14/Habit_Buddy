@@ -16,10 +16,13 @@ add_compile_definitions(_WIN32_WINNT=0x0601)
 set(Crow_DIR C:/Users/manis/OneDrive/Desktop/vcpkg/installed/x64-windows/share/crow)
 find_package(Crow CONFIG REQUIRED)
 
+set(unofficial-mysql-connector-cpp_dir C:/Users/manis/OneDrive/Desktop/vcpkg/installed/x64-windows/share/unofficial-mysql-connector-cpp)
+find_package(unofficial-mysql-connector-cpp CONFIG REQUIRED)
+
 set(nlohmann_json C:/Users/manis/OneDrive/Desktop/vcpkg/installed/x64-windows/share/nlohmann_json )
 find_package(nlohmann_json CONFIG REQUIRED)
 
 add_executable(${PROJECT_NAME} main.cpp)
 
-target_link_libraries(${PROJECT_NAME} PRIVATE Crow::Crow nlohmann_json::nlohmann_json)
+target_link_libraries(${PROJECT_NAME} PRIVATE Crow::Crow unofficial::mysql-connector-cpp::connector nlohmann_json::nlohmann_json)
 

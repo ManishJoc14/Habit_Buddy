@@ -15,7 +15,7 @@ const notesSlice = createSlice({
   },
   reducers: {
     addNote: (state, action) => {
-      state.notes.push(action.payload);
+      state.notes.push(action?.payload);
     },
   },
   extraReducers: (builder) => {
@@ -27,11 +27,11 @@ const notesSlice = createSlice({
       .addCase(addNoteAsync.fulfilled, (state, action) => {
         state.status = "adding/fulfilled";
         //console.log(action.payload); // object; note which was added {note, category, startDate, endDate, description, priority, done}
-        state.notes.push(action.payload);
+        state.notes.push(action?.payload);
       })
       .addCase(addNoteAsync.rejected, (state, action) => {
         state.status = "adding/rejected";
-        state.error = action.payload;
+        state.error = action?.payload;
       });
 
     //viewNoteAsync
@@ -41,11 +41,11 @@ const notesSlice = createSlice({
       })
       .addCase(viewNoteAsync.fulfilled, (state, action) => {
         state.status = "viewing/fulfilled";
-        state.notes = [...action.payload];
+        state.notes = [...action?.payload || []];
       })
       .addCase(viewNoteAsync.rejected, (state, action) => {
         state.status = "viewing/failed";
-        state.error = action.payload;
+        state.error = action?.payload;
       });
 
     //deleteNoteAsync
@@ -55,11 +55,11 @@ const notesSlice = createSlice({
       })
       .addCase(deleteNoteAsync.fulfilled, (state, action) => {
         state.status = "deleting/fulfilled";
-        state.notes = state.notes.filter((note) => note.id !== action.payload);
+        state.notes = state?.notes?.filter((note) => note.id !== action?.payload);
       })
       .addCase(deleteNoteAsync.rejected, (state, action) => {
         state.status = "deleting/failed";
-        state.error = action.payload;
+        state.error = action?.payload;
       });
 
     //checkNoteAsync
@@ -69,8 +69,8 @@ const notesSlice = createSlice({
       })
       .addCase(checkNoteAsync.fulfilled, (state, action) => {
         state.status = "checking/fulfilled";
-        state.notes = state.notes.map((note) => {
-          if (note.id === action.payload) {
+        state.notes = state?.notes?.map((note) => {
+          if (note.id === action?.payload) {
               note.done = !note.done;
           }
           return note;
@@ -78,7 +78,7 @@ const notesSlice = createSlice({
       })
       .addCase(checkNoteAsync.rejected, (state, action) => {
         state.status = "checking/failed";
-        state.error = action.payload;
+        state.error = action?.payload;
       });
   },
 });

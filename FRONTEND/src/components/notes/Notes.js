@@ -96,7 +96,7 @@ const Notes = () => {
                     value={note.done}
                     onChange={handlechange}
                     onClick={(e) => handleCheck(e, note.id, note.done)}
-                    checked={note.done === true}
+                    checked={note.done === true || parseInt(note.done) === 1}
                   />
                 </p>
               </div>
