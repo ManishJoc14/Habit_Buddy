@@ -1,38 +1,45 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { addNoteAsync } from "../../redux/thunk";
-import { v4 as uuidv4 } from 'uuid';
+import { editNoteAsync } from "../../redux/thunk";
 
-const AddNoteModal = () => {
+const EditNoteModal = ({ noteTobeEdited }) => {
   const dispatch = useDispatch();
+
   const [noteData, setNoteData] = useState({
-    id : uuidv4(),
+    id: "",
     note: "",
     category: "",
     startDate: "",
     endDate: "",
     description: "",
     priority: 1,
-    done : false
+    done: false,
   });
+
+  useEffect(() => {
+    if (noteTobeEdited) {
+      setNoteData(noteTobeEdited);
+    }
+  }, [noteTobeEdited]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     try {
-      const {id, note, category, startDate, endDate, description, priority, done} = noteData;
-      if(id || note || category || startDate || endDate || description || priority || !done){
-        dispatch(addNoteAsync({ ...noteData }));
-        setNoteData({
-          id : uuidv4(),
-          note: "",
-          category: "",
-          startDate: "",
-          endDate: "",
-          description: "",
-          priority: 1,
-          done : false
-        });
-      }else{
+      const { id, note, category, startDate, endDate, description, priority } =
+        noteData;
+      if (
+        id &&
+        note &&
+        category &&
+        startDate &&
+        endDate &&
+        description &&
+        priority
+      ) {
+        dispatch(editNoteAsync({ ...noteData }));
+        const modal = document.getElementById("modalEdit");
+        modal.classList.add("hidden");
+      } else {
         alert("Incomplete");
       }
     } catch (error) {
@@ -45,30 +52,35 @@ const AddNoteModal = () => {
     const { name, value } = e.target;
     setNoteData((prev) => ({ ...prev, [name]: value }));
   };
-  // console.log(noteData);
+
+  const handleClose = () => {
+    const modalEdit = document.getElementById("modalEdit");
+    modalEdit.classList.add("hidden");
+  };
+
   return (
     <>
       <div
-        id="crud-modal"
+        id="modalEdit"
         tabIndex={-1}
         aria-hidden="true"
-        className="hidden cursor-pointer overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full"
+        className=" hidden cursor-pointer overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full"
       >
         <div className="relative p-4 w-full max-w-md max-h-full">
           {/* REVIEW[epic=AddModal] Modal content */}
           <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
-
             {/* REVIEW Modal header */}
             <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
               <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-                Add new task
+                Edit Task
               </h3>
 
               {/* REVIEW Add Button */}
               <button
                 type="button"
+                id="closeEditModal"
+                onClick={handleClose}
                 className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
-                data-modal-toggle="crud-modal"
               >
                 <svg
                   className="w-3 h-3"
@@ -206,11 +218,21 @@ const AddNoteModal = () => {
                     className="bg-gray-50 cursor-pointer border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                   >
                     <option className="cursor-pointer">Select category</option>
-                    <option className="cursor-pointer"value="Health">Health</option>
-                    <option className="cursor-pointer"value="Study">Study</option>
-                    <option className="cursor-pointer"value="Exercise">Exercise</option>
-                    <option className="cursor-pointer"value="Entertainmaint">Entertainmaint</option>
-                    <option className="cursor-pointer"value="Sleep">Sleep</option>
+                    <option className="cursor-pointer" value="Health">
+                      Health
+                    </option>
+                    <option className="cursor-pointer" value="Study">
+                      Study
+                    </option>
+                    <option className="cursor-pointer" value="Exercise">
+                      Exercise
+                    </option>
+                    <option className="cursor-pointer" value="Entertainmaint">
+                      Entertainmaint
+                    </option>
+                    <option className="cursor-pointer" value="Sleep">
+                      Sleep
+                    </option>
                   </select>
                 </div>
 
@@ -241,7 +263,7 @@ const AddNoteModal = () => {
                 onClick={handleSubmit}
                 className="text-white inline-flex cursor-pointer items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
               >
-                <svg
+                {/* <svg
                   className="me-1 -ms-1 w-5 h-5"
                   fill="currentColor"
                   viewBox="0 0 20 20"
@@ -252,11 +274,10 @@ const AddNoteModal = () => {
                     d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
                     clipRule="evenodd"
                   />
-                </svg>
-                Add Task
+                </svg> */}
+                Save
               </button>
             </form>
-
           </div>
         </div>
       </div>
@@ -264,4 +285,4 @@ const AddNoteModal = () => {
   );
 };
 
-export default AddNoteModal;
+export default EditNoteModal;

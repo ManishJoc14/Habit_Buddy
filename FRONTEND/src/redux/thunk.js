@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { add_Note, delete_Note, view_Note , check_Note } from "./apis";
+import { add_Note, delete_Note, view_Note , check_Note, edit_Note } from "./apis";
 
 export const addNoteAsync = createAsyncThunk(
   "notesManager/addNoteAsync",
@@ -37,12 +37,25 @@ export const deleteNoteAsync = createAsyncThunk(
     }
   }
 );
+
 export const checkNoteAsync = createAsyncThunk(
   "notesManager/checkNoteAsync",
   async ({id, done},thunkAPI) => {
     try {
       const response = await check_Note({id, done});
       return response?.data; //id of note
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const editNoteAsync = createAsyncThunk(
+  "notesManager/editNoteAsync",
+  async ({ id, note, category, startDate, endDate, description, priority, done}, thunkAPI) => {
+    try {
+      const response = await edit_Note({id, note, category, startDate, endDate, description, priority, done});
+      return response?.data; // object; note which was edited  {id, note, category, startDate, endDate, description, priority, done}
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response.data);
     }

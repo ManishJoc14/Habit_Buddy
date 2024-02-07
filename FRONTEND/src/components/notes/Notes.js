@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Dropdown } from "flowbite-react";
 import { checkNoteAsync, deleteNoteAsync } from "../../redux/thunk";
@@ -7,13 +7,13 @@ import { formatStartDate } from "../../utils/formatStartDate";
 import { getDaysLeft } from "../../utils/getDaysLeft";
 import NoteHeader from "./NoteHeader";
 import Calenderstrip from "../calenderStrip";
-import { getCurrentday } from './../../utils/getCurrentday';
+import { getCurrentday } from "./../../utils/getCurrentday";
+import EditNoteModal from "../editNoteModal";
 
 const Notes = () => {
   const [noteToBeRendered, setNotesToBeRendered] = useState([]);
   const [selecteddate, setSelectedDate] = useState(getCurrentday());
-
-
+  const [noteTobeEdited, setNoteTobeEdit] = useState({});
 
   const dispatch = useDispatch();
 
@@ -32,12 +32,22 @@ const Notes = () => {
       console.log("Error deleting note" + error);
     }
   };
+  const handleEdit = (e, note) => {
+    const modal = document.getElementById("modalEdit");
+    modal.classList.remove("hidden");
+    setNoteTobeEdit(note);
+  };
   const handlechange = () => {};
 
   return (
     <>
-      <Calenderstrip setSelectedDate={setSelectedDate}/>
-      <NoteHeader setNotesToBeRendered={setNotesToBeRendered} selecteddate={selecteddate} />
+      
+      <Calenderstrip setSelectedDate={setSelectedDate} />
+      <NoteHeader
+        setNotesToBeRendered={setNotesToBeRendered}
+        selecteddate={selecteddate}
+      />
+       <EditNoteModal noteTobeEdited={noteTobeEdited}/>
       <div className="grid sm:grid-cols-1 lg:grid-cols-3 md:grid-cols-2 gap-4 mb-4">
         {noteToBeRendered.length > 0 ? (
           <>
@@ -67,7 +77,7 @@ const Notes = () => {
                     className="note-edit"
                     renderTrigger={() => <span className="dots">...</span>}
                   >
-                    <Dropdown.Item>
+                    <Dropdown.Item onClick={(e) => handleEdit(e, note)}>
                       <span className="material-symbols-outlined edit">
                         edit
                       </span>

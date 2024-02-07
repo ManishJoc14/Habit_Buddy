@@ -3,6 +3,7 @@ import {
   addNoteAsync,
   checkNoteAsync,
   deleteNoteAsync,
+  editNoteAsync,
   viewNoteAsync,
 } from "./thunk";
 
@@ -34,6 +35,24 @@ const notesSlice = createSlice({
         state.error = action?.payload;
       });
 
+    //editNoteAsync
+    builder
+      .addCase(editNoteAsync.pending, (state) => {
+        state.status = "editing/pending";
+      })
+      .addCase(editNoteAsync.fulfilled, (state, action) => {
+        state.status = "editing/fulfilled";
+        //console.log(action.payload); // object; note which was edited {note, category, startDate, endDate, description, priority, done}
+        const index = state.notes.findIndex(
+          (note) => note.id === action.payload.id
+        );
+        state.notes[index] = action?.payload;
+      })
+      .addCase(editNoteAsync.rejected, (state, action) => {
+        state.status = "editing/rejected";
+        state.error = action?.payload;
+      });
+
     //viewNoteAsync
     builder
       .addCase(viewNoteAsync.pending, (state) => {
@@ -41,7 +60,7 @@ const notesSlice = createSlice({
       })
       .addCase(viewNoteAsync.fulfilled, (state, action) => {
         state.status = "viewing/fulfilled";
-        state.notes = [...action?.payload || []];
+        state.notes = [...(action?.payload || [])];
       })
       .addCase(viewNoteAsync.rejected, (state, action) => {
         state.status = "viewing/failed";
@@ -55,7 +74,9 @@ const notesSlice = createSlice({
       })
       .addCase(deleteNoteAsync.fulfilled, (state, action) => {
         state.status = "deleting/fulfilled";
-        state.notes = state?.notes?.filter((note) => note.id !== action?.payload);
+        state.notes = state?.notes?.filter(
+          (note) => note.id !== action?.payload
+        );
       })
       .addCase(deleteNoteAsync.rejected, (state, action) => {
         state.status = "deleting/failed";
@@ -71,7 +92,7 @@ const notesSlice = createSlice({
         state.status = "checking/fulfilled";
         state.notes = state?.notes?.map((note) => {
           if (note.id === action?.payload) {
-              note.done = !note.done;
+            note.done = !note.done;
           }
           return note;
         });

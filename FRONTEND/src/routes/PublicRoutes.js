@@ -7,6 +7,8 @@ import Dashboard from './../components/dashboard';
 import Timer from './../components/timer';
 import Settings from './../components/settings';
 import Contact from './../components/contact';
+import Login from "../components/login";
+import Signup from "../components/signup";
 const PublicRoutes = () => {
   return (
     <>
@@ -20,6 +22,8 @@ const PublicRoutes = () => {
         <Route path="/timer" element={<Timer />} />
         <Route path="/settings" element={<Settings />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
       </Routes>
     </>
   );

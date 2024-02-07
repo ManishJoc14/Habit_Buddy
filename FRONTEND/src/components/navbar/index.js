@@ -1,6 +1,7 @@
 import React from "react";
-import AddNoteModal from "../modal";
+import AddNoteModal from "../addNoteModal";
 import './navbar.css';
+import EditNoteModal from "../editNoteModal";
 
 const Nav = () => {
   return (
@@ -57,6 +58,7 @@ const Nav = () => {
               </button>
               {/* SECTION Main modal */}
               <AddNoteModal />
+              {/* <EditNoteModal /> */}
               </div>
                 <div>
                   <button

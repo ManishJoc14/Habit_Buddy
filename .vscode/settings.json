@@ -1,3 +1,7 @@
 {
-    "cmake.sourceDirectory": "C:/Users/manis/OneDrive/Desktop/Habit-Buddy/CPPBACKEND"
+    "cmake.sourceDirectory": "C:/Users/manis/OneDrive/Desktop/Habit-Buddy/CPPBACKEND",
+    "files.associations": {
+        "filesystem": "cpp",
+        "xstring": "cpp"
+    }
 }

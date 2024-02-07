@@ -345,7 +345,45 @@ public:
         {
             notes.push_back(newNote);
             saveNotesToDatabase();
-            std::cout << "NOTE SAVED: " << newNote.dump(2);
+            // std::cout << "NOTE SAVED: " << newNote.dump(2);
+        }
+        catch (const std::exception &e)
+        {
+            // Print an error message if an exception occurs
+            std::cerr << e.what() << '\n';
+        }
+    }
+
+    // FIXME -----
+    void editNote(const json &newNote)
+    {
+        try
+        {
+            // id will be same
+            std::string id = newNote["id"];;
+
+            // Iterate over notes to find the note with the specified ID
+            for (auto &note : notes)
+            {
+                if (note["id"] == id)
+                {
+                    // update fields values
+                    note["category"] = newNote["category"];
+                    note["description"] = newNote["description"];
+                    note["done"] = newNote["done"];
+                    note["endDate"] = newNote["endDate"];
+                    note["note"] = newNote["note"];
+                    note["endDate"] = newNote["endDate"];
+                    note["priority"] = newNote["priority"];
+                    note["startDate"] = newNote["startDate"];
+
+                    // Save the updated notes to the database
+                    saveNotesToDatabase();
+
+                    // Exit the loop after updating
+                    break;
+                }
+            }
         }
         catch (const std::exception &e)
         {
@@ -449,6 +487,31 @@ int main()
                 return crow::response(500, "Internal Server Error");
             } });
 
+    // Route to edit note
+    CROW_ROUTE(app, "/editNote")
+        .methods("POST"_method)([&noteManager](const crow::request &req)
+                                {
+            try
+            {
+                // Parse JSON data from the request body
+                json requestData = json::parse(req.body);
+                // std::cout << requestData.dump(2);
+
+                // Call the editNote function with the parsed JSON data
+                noteManager.editNote(requestData);
+                
+                // Return a success response
+                return crow::response(requestData.dump(2));
+            }
+            catch (const std::exception &e)
+            {
+                // Print an error message if an exception occurs
+                std::cerr << e.what() << '\n';
+               
+                // Return an error response
+                return crow::response(500, "Internal Server Error");
+            } });
+
     // Route to mark a note as done
     CROW_ROUTE(app, "/checkNote")
         .methods("POST"_method)([&noteManager](const crow::request &req)
@@ -525,7 +588,6 @@ int main()
                 // Return an error response
                 return crow::response(500, "Internal Server Error");
             } });
-   
 
     app.port(3001)
         .multithreaded()
