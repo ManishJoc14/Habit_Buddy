@@ -1,34 +1,40 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
+import { Dropdown } from "flowbite-react";
 // import { useLocation } from "react-router-dom";
-// import { getCurrentDate } from "./../../utils/getcurrentTime";
 import "./Note.css";
-// import { getNextDay } from "../../utils/getNextDay";
+import { getNextDay } from "../../utils/getNextDay";
+import { getCurrentday } from "./../../utils/getCurrentday";
 
-const NoteHeader = ({ setNotesToBeRendered, selecteddate }) => {
-  // const date = getCurrentDate();
+const NoteHeader = ({
+  setNotesToBeRendered,
+  selecteddate,
+  noteToBeRendered,
+}) => {
+  const currentDate = getCurrentday();
   // const { pathname } = useLocation();
   const notes = useSelector((state) => state.notes.notes);
   // const [selectedItem, setSelectedItem] = useState("today");
 
-  
-  useEffect(()=>{
+  useEffect(() => {
     const notesOfSelectedDate = notes.filter((note) => {
       const startDate = note.startDate.split("T")[0];
       return selecteddate === startDate;
     });
     setNotesToBeRendered(notesOfSelectedDate);
-  }, [selecteddate,setNotesToBeRendered, notes])
+  }, [selecteddate, setNotesToBeRendered, notes]);
 
-  // const toadysNotes = notes.filter((note) => {
-  //   const startDate = note.startDate.split("T")[0];
-  //   return currentDate === startDate;
-  // });
+  const toadysNotes = notes.filter((note) => {
+    const startDate = note.startDate.split("T")[0];
+    // console.log(startDate);
+    // console.log(currentDate);
+    return currentDate === startDate;
+  });
 
-  // const tomorrowsNotes = notes.filter((note) => {
-  //   const startDate = note.startDate;
-  //   return startDate.split("T")[0] === getNextDay(currentDate).split("T")[0];
-  // });
+  const tomorrowsNotes = notes.filter((note) => {
+    const startDate = note.startDate;
+    return startDate.split("T")[0] === getNextDay(currentDate).split("T")[0];
+  });
 
   // const filteredNotes =
   //   pathname === "/tasks" || pathname === "/" ? toadysNotes : notes;
@@ -37,18 +43,31 @@ const NoteHeader = ({ setNotesToBeRendered, selecteddate }) => {
   //   setNotesToBeRendered(filteredNotes);
   // }, [pathname, currentDate, notes]);
 
-  // const setTodaysNotes = () => {
-  //   setSelectedItem("today");
-  //   setNotesToBeRendered(toadysNotes);
-  // };
-  // const setTomorrowsNotes = () => {
-  //   setSelectedItem("tomorrow");
-  //   setNotesToBeRendered(tomorrowsNotes);
-  // };
-  // const setAllNotes = () => {
-  //   setSelectedItem("all");
-  //   setNotesToBeRendered(notes);
-  // };
+  const setTodaysNotes = () => {
+    // setSelectedItem("today");
+    setNotesToBeRendered(toadysNotes);
+  };
+  const setTomorrowsNotes = () => {
+    // setSelectedItem("tomorrow");
+    setNotesToBeRendered(tomorrowsNotes);
+  };
+  const setAllNotes = () => {
+    // setSelectedItem("all");
+    setNotesToBeRendered(notes);
+  };
+
+  const sortByPriority = () => {
+    const copyOfNoteToBeRendered = [...noteToBeRendered];
+    copyOfNoteToBeRendered.sort(
+      (a, b) => parseInt(a.priority) - parseInt(b.priority)
+    );
+    setNotesToBeRendered(copyOfNoteToBeRendered);
+  };
+  const suffleNotes = () => {
+    const copyOfNoteToBeRendered = [...noteToBeRendered];
+    copyOfNoteToBeRendered.sort((a, b) => Math.random() - Math.random());
+    setNotesToBeRendered(copyOfNoteToBeRendered);
+  };
   return (
     <>
       {/* <div className="projects-section-header">
@@ -84,6 +103,26 @@ const NoteHeader = ({ setNotesToBeRendered, selecteddate }) => {
           <span className="status-type">Total</span>
         </div>
       </div> */}
+
+      <div className="w-100 absolute cursor-pointer right-24">
+        <Dropdown
+          label="Dropdown left start"
+          placement="left-start"
+          dismissOnClick={false}
+          className="note-edit"
+          renderTrigger={() => (
+            <span className="dot">
+              <span className="material-symbols-outlined">sort</span>
+            </span>
+          )}
+        >
+          <Dropdown.Item onClick={setTodaysNotes}>Today's</Dropdown.Item>
+          <Dropdown.Item onClick={setTomorrowsNotes}>Tomorrow's</Dropdown.Item>
+          <Dropdown.Item onClick={setAllNotes}>ALL</Dropdown.Item>
+          <Dropdown.Item onClick={sortByPriority}>SortByPriority</Dropdown.Item>
+          <Dropdown.Item onClick={suffleNotes}>Suffle</Dropdown.Item>
+        </Dropdown>
+      </div>
     </>
   );
 };

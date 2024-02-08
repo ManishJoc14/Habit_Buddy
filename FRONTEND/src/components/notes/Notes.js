@@ -42,11 +42,12 @@ const Notes = () => {
   return (
     <>
       
-      <Calenderstrip setSelectedDate={setSelectedDate} />
       <NoteHeader
         setNotesToBeRendered={setNotesToBeRendered}
+        noteToBeRendered={noteToBeRendered}
         selecteddate={selecteddate}
       />
+      <Calenderstrip setSelectedDate={setSelectedDate} />
        <EditNoteModal noteTobeEdited={noteTobeEdited}/>
       <div className="grid sm:grid-cols-1 lg:grid-cols-3 md:grid-cols-2 gap-4 mb-4">
         {noteToBeRendered.length > 0 ? (
