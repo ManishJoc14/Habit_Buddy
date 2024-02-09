@@ -1,8 +1,28 @@
-import React from "react";
+import React, { useState } from "react";
 import "../login/login.css";
 import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { signupUserAsync } from "../../redux/userThunk";
 
 const Signup = () => {
+  const dispatch = useDispatch();
+
+  const [userData, setUserData] = useState({
+    name: "",
+    email: "",
+    password: "",
+  });
+  const handleChange = (e) => {
+    e.preventDefault();
+    const { name, value } = e.target;
+    setUserData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    dispatch(signupUserAsync({...userData}));
+    localStorage.setItem("userCredentials",JSON.stringify({...userData}));
+  };
   return (
     <>
       <div className="container">
@@ -15,16 +35,40 @@ const Signup = () => {
           </div>
           <div className="input-box">
             <label htmlFor="name">Name</label>
-            <input type="text" className="input-field" id="name" required />
+            <input
+              type="text"
+              value={userData.name}
+              onChange={handleChange}
+              className="input-field"
+              id="name"
+              name="name"
+              required
+            />
           </div>
           <div className="input-box">
             <label htmlFor="email">E-Mail</label>
-            <input type="email" className="input-field" id="email" required />
+            <input
+              type="email"
+              value={userData.email}
+              onChange={handleChange}
+              className="input-field"
+              id="email"
+              name="email"
+              required
+            />
             <i className="bx bx-envelope" />
           </div>
           <div className="input-box">
             <label htmlFor="pass">Password</label>
-            <input type="password" className="input-field" id="pass" required />
+            <input
+              type="password"
+              value={userData.password}
+              onChange={handleChange}
+              className="input-field"
+              name="password"
+              id="password"
+              required
+            />
             <i className="bx bx-lock" />
           </div>
           <div className="input-box">
@@ -32,6 +76,7 @@ const Signup = () => {
               type="submit"
               className="input-submit"
               defaultValue="SIGN IN"
+              onClick={handleSubmit}
             />
           </div>
           <div className="bottom">

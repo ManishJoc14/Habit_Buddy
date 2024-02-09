@@ -1,8 +1,26 @@
-import React from "react";
-import './login.css';
-import { Link } from 'react-router-dom';
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import "./login.css";
+import { useDispatch } from "react-redux";
+import { loginUserAsync } from "../../redux/userThunk";
 
 const Login = () => {
+  const dispatch = useDispatch();
+
+  const [userData, setUserData] = useState({
+    email: "",
+    password: "",
+  });
+  const handleChange = (e) => {
+    e.preventDefault();
+    const { name, value } = e.target;
+    setUserData((prev) => ({ ...prev, [name]: value }));
+  };
+  console.log(userData);
+  const handleSubmit = (e) => {
+    e.preventDefault();
+   dispatch(loginUserAsync({...userData}))
+  };
   return (
     <>
       <div className="container">
@@ -11,14 +29,16 @@ const Login = () => {
             <header>
               <img src="images/logo.png" alt="" />
             </header>
-            <p>Log In to HabitBuddy</p>
+            <p>Login In to HabitBuddy</p>
           </div>
           <div className="input-box">
             <label htmlFor="email">E-Mail</label>
             <input
               type="email"
               className="input-field"
+              onChange={handleChange}
               id="email"
+              name="email"
               required
             />
             <i className="bx bx-envelope" />
@@ -28,7 +48,9 @@ const Login = () => {
             <input
               type="password"
               className="input-field"
-              id="pass"
+              onChange={handleChange}
+              id="password"
+              name="password"
               required
             />
             <i className="bx bx-lock" />
@@ -38,6 +60,7 @@ const Login = () => {
               type="submit"
               className="input-submit"
               defaultValue="SIGN IN"
+              onClick={handleSubmit}
             />
           </div>
           <div className="bottom">

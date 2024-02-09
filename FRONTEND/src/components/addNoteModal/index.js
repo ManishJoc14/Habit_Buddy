@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { addNoteAsync } from "../../redux/thunk";
+import { addNoteAsync } from "../../redux/notesThunk";
 import { v4 as uuidv4 } from 'uuid';
 
 const AddNoteModal = () => {
@@ -21,7 +21,14 @@ const AddNoteModal = () => {
     try {
       const {id, note, category, startDate, endDate, description, priority, done} = noteData;
       if(id && note && category && startDate && endDate && description && priority && !done){
-        dispatch(addNoteAsync({ ...noteData }));
+
+        const userCredentials = JSON.parse(localStorage.getItem("userCredentials"));
+       if(userCredentials){
+        dispatch(addNoteAsync([ noteData, userCredentials ]));
+       }else{
+        alert("sigup first");
+       }
+       
         setNoteData({
           id : uuidv4(),
           note: "",

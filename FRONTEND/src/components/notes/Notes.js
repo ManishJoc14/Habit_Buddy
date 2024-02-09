@@ -1,13 +1,13 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { Dropdown } from "flowbite-react";
-import { checkNoteAsync, deleteNoteAsync } from "../../redux/thunk";
-import "./Note.css";
+import { checkNoteAsync, deleteNoteAsync } from "../../redux/notesThunk";
 import { formatStartDate } from "../../utils/formatStartDate";
 import { getDaysLeft } from "../../utils/getDaysLeft";
-import NoteHeader from "./NoteHeader";
-import Calenderstrip from "../calenderStrip";
 import { getCurrentday } from "./../../utils/getCurrentday";
+import "./Note.css";
+import Calenderstrip from "../calenderStrip";
+import NoteHeader from "./NoteHeader";
 import EditNoteModal from "../editNoteModal";
 
 const Notes = () => {
@@ -19,7 +19,15 @@ const Notes = () => {
 
   const handleDelete = (e, id) => {
     try {
-      dispatch(deleteNoteAsync({ id }));
+      const userCredentials = JSON.parse(
+        localStorage.getItem("userCredentials")
+      );
+      if (userCredentials) {
+        dispatch(deleteNoteAsync([ {id}, userCredentials]));
+      } else {
+        alert("sigup first");
+      }
+      // dispatch(deleteNoteAsync({ id }));
     } catch (error) {
       console.log("Error deleting note" + error);
     }
@@ -27,7 +35,16 @@ const Notes = () => {
 
   const handleCheck = (e, id, done) => {
     try {
-      dispatch(checkNoteAsync({ id, done }));
+      const userCredentials = JSON.parse(
+        localStorage.getItem("userCredentials")
+      );
+
+      if (userCredentials) {
+        dispatch(checkNoteAsync([ {id, done}, userCredentials]));
+      } else {
+        alert("sigup first");
+      }
+      // dispatch(checkNoteAsync({ id, done }));
     } catch (error) {
       console.log("Error deleting note" + error);
     }
@@ -41,14 +58,14 @@ const Notes = () => {
 
   return (
     <>
-      
       <NoteHeader
         setNotesToBeRendered={setNotesToBeRendered}
         noteToBeRendered={noteToBeRendered}
         selecteddate={selecteddate}
+        setSelectedDate={setSelectedDate}
       />
       <Calenderstrip setSelectedDate={setSelectedDate} />
-       <EditNoteModal noteTobeEdited={noteTobeEdited}/>
+      <EditNoteModal noteTobeEdited={noteTobeEdited} />
       <div className="grid sm:grid-cols-1 lg:grid-cols-3 md:grid-cols-2 gap-4 mb-4">
         {noteToBeRendered.length > 0 ? (
           <>

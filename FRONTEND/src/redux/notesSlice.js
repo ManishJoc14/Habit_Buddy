@@ -5,7 +5,7 @@ import {
   deleteNoteAsync,
   editNoteAsync,
   viewNoteAsync,
-} from "./thunk";
+} from "./notesThunk";
 
 const notesSlice = createSlice({
   name: "notesManager",

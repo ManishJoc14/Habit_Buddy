@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { editNoteAsync } from "../../redux/thunk";
+import { editNoteAsync } from "../../redux/notesThunk";
 
 const EditNoteModal = ({ noteTobeEdited }) => {
   const dispatch = useDispatch();
@@ -36,7 +36,14 @@ const EditNoteModal = ({ noteTobeEdited }) => {
         description &&
         priority
       ) {
-        dispatch(editNoteAsync({ ...noteData }));
+        const userCredentials = JSON.parse(localStorage.getItem("userCredentials"));
+        if(userCredentials){
+         dispatch(editNoteAsync([ noteData, userCredentials ]));
+        }else{
+         alert("sigup first");
+        }
+
+        // dispatch(editNoteAsync({ ...noteData }));
         const modal = document.getElementById("modalEdit");
         modal.classList.add("hidden");
       } else {

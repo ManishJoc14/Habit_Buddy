@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, {useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Dropdown } from "flowbite-react";
 // import { useLocation } from "react-router-dom";
@@ -8,8 +8,9 @@ import { getCurrentday } from "./../../utils/getCurrentday";
 
 const NoteHeader = ({
   setNotesToBeRendered,
-  selecteddate,
   noteToBeRendered,
+  selecteddate,
+  setSelectedDate
 }) => {
   const currentDate = getCurrentday();
   // const { pathname } = useLocation();
@@ -26,8 +27,6 @@ const NoteHeader = ({
 
   const toadysNotes = notes.filter((note) => {
     const startDate = note.startDate.split("T")[0];
-    // console.log(startDate);
-    // console.log(currentDate);
     return currentDate === startDate;
   });
 
@@ -44,16 +43,16 @@ const NoteHeader = ({
   // }, [pathname, currentDate, notes]);
 
   const setTodaysNotes = () => {
-    // setSelectedItem("today");
     setNotesToBeRendered(toadysNotes);
+    setSelectedDate(getCurrentday());
   };
   const setTomorrowsNotes = () => {
-    // setSelectedItem("tomorrow");
     setNotesToBeRendered(tomorrowsNotes);
+    setSelectedDate(getNextDay(new Date()));
   };
   const setAllNotes = () => {
-    // setSelectedItem("all");
     setNotesToBeRendered(notes);
+    setSelectedDate(null);
   };
 
   const sortByPriority = () => {

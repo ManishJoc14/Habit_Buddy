@@ -1,29 +1,22 @@
 import Nav from "./components/navbar";
-import LeftSideBar from "./components/leftSidebar";
-import RightSideBar from "./components/rightSidebar/RightsideBar";
-import React, { useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { viewNoteAsync } from "./redux/thunk";
+import React, { useEffect, useState } from "react";
+import AppPage from "./components/APP";
+import Home from "./components/home";
 
 function App() {
-  const dispatch = useDispatch();
-
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   useEffect(() => {
-    const fetchData = () => {
-      try {
-        dispatch(viewNoteAsync());
-      } catch (error) {
-        console.log("Error viewing notes: " + error);
-      }
-    };
-
-    fetchData();
-  }, [dispatch]);
+    const userCredentials = JSON.parse(localStorage.getItem("userCredentials"));
+    if (userCredentials) {
+      setIsAuthenticated(true);
+    } else {
+      setIsAuthenticated(false);
+    }
+  }, []);
   return (
     <>
       <Nav />
-      <LeftSideBar />
-      <RightSideBar />
+      {isAuthenticated ? <AppPage /> : <Home />}
     </>
   );
 }
