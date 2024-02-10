@@ -209,7 +209,7 @@ public:
         }
     }
 
-    void updateUserName()
+    void changeUserDetails(std::string newName, std::string newEmail, std::string newPassword)
     {
         try
         {
@@ -220,53 +220,19 @@ public:
             Table userDbTable = getTable(mySession);
 
             // REVIEW - Inserting to database
-            userDbTable.update().set(User::UserNameColumnName, this->userName).where("userEmail = :USEREMAIL AND userName = :USERNAME AND userPassword = :USERPASSWORD").bind("USEREMAIL", this->userEmail).bind("USERNAME", this->userName).bind("USERPASSWORD", this->userPassword).execute();
-        }
-        catch (const mysqlx::Error &err)
-        {
-            std::cerr << "MySQL X DevAPI Server Error: " << err << std::endl;
-        }
-        catch (const std::exception &ex)
-        {
-            std::cerr << "Standard Exception: " << ex.what() << std::endl;
-        }
-    }
+            userDbTable.update()
+                .set(User::UserNameColumnName, newName)
+                .set(User::UserEmailColumnName, newEmail)
+                .set(User::UserPaswordColumnName, newPassword)
+                .where("userEmail = :USEREMAIL AND userName = :USERNAME AND userPassword = :USERPASSWORD")
+                .bind("USEREMAIL", this->userEmail)
+                .bind("USERNAME", this->userName)
+                .bind("USERPASSWORD", this->userPassword)
+                .execute();
 
-    void updateUserEmail()
-    {
-        try
-        {
-            // NOTE - Establishing a connection
-            Session mySession = startSession();
-
-            // NOTE - Get Table from database
-            Table userDbTable = getTable(mySession);
-
-            // REVIEW - Inserting to database
-            userDbTable.update().set(User::UserEmailColumnName, this->userEmail).where("userEmail = :USEREMAIL AND userName = :USERNAME AND userPassword = :USERPASSWORD").bind("USEREMAIL", this->userEmail).bind("USERNAME", this->userName).bind("USERPASSWORD", this->userPassword).execute();
-        }
-        catch (const mysqlx::Error &err)
-        {
-            std::cerr << "MySQL X DevAPI Server Error: " << err << std::endl;
-        }
-        catch (const std::exception &ex)
-        {
-            std::cerr << "Standard Exception: " << ex.what() << std::endl;
-        }
-    }
-
-    void updateUserPassword()
-    {
-        try
-        {
-            // NOTE - Establishing a connection
-            Session mySession = startSession();
-
-            // NOTE - Get Table from database
-            Table userDbTable = getTable(mySession);
-
-            // REVIEW - Inserting to database
-            userDbTable.update().set(User::UserPaswordColumnName, this->userPassword).where("userEmail = :USEREMAIL AND userName = :USERNAME AND userPassword = :USERPASSWORD").bind("USEREMAIL", this->userEmail).bind("USERNAME", this->userName).bind("USERPASSWORD", this->userPassword).execute();
+            this->userName = newName;
+            this->userEmail = newEmail;
+            this->userPassword = newPassword;
         }
         catch (const mysqlx::Error &err)
         {
@@ -429,7 +395,7 @@ public:
             Table userDbTable = getTable(mySession);
 
             // REVIEW - updateNotes in database
-            userDbTable.update().set(User::UserNotesColumnName, notes.dump(2)).where("userEmail = :USEREMAIL AND userName = :USERNAME AND userPassword = :USERPASSWORD").bind("USEREMAIL", this->userEmail).bind("USERNAME", this->userName).bind("USERPASSWORD",this->userPassword).execute();
+            userDbTable.update().set(User::UserNotesColumnName, notes.dump(2)).where("userEmail = :USEREMAIL AND userName = :USERNAME AND userPassword = :USERPASSWORD").bind("USEREMAIL", this->userEmail).bind("USERNAME", this->userName).bind("USERPASSWORD", this->userPassword).execute();
         }
         catch (const mysqlx::Error &err)
         {
@@ -591,30 +557,42 @@ int main()
                 // Return an error response
                 return crow::response(500, "internal server error");
             } });
+    // Route to signup
+    CROW_ROUTE(app, "/changeDetails")
+        .methods("POST"_method)([](const crow::request &req)
+                                {
+            try
+            {
+                 // Extract email and password from request headers
+                std::string name = req.get_header_value("name");
+                std::string email = req.get_header_value("email");
+                std::string password = req.get_header_value("password");
+                
+                User user(name, email, password);
+                   
+                // Parse JSON data from the request body
+                json requestData = json::parse(req.body);
+                std::string newName = requestData["newName"];
+                std::string newEmail = requestData["newEmail"];
+                std::string newPassword = requestData["newPassword"];
 
-    // // Route to login
-    // CROW_ROUTE(app, "/login")
-    //     .methods("POST"_method)([](const crow::request &req)
-    //                             {
-    //         try
-    //         {
-    //             // Parse JSON data from the request body
-    //             json requestData = json::parse(req.body);
 
-    //             User user(requestData);
-    //             json data =  user.getUserDetails();
+                user.changeUserDetails(newName, newEmail, newPassword);
+               
+                json data =  user.getUserDetails();
+                
+                // Return a success response
+                return crow::response(data.dump(2));
+            }
+            catch (const std::exception &e)
+            {
+                // Print an error message if an exception occurs
+                std::cerr << e.what() << '\n';
+               
+                // Return an error response
+                return crow::response(500, "internal server error");
+            } });
 
-    //             // Return a success response
-    //             return crow::response(data.dump(2));
-    //         }
-    //         catch (const std::exception &e)
-    //         {
-    //             // Print an error message if an exception occurs
-    //             std::cerr << e.what() << '\n';
-
-    //             // Return an error response
-    //             return crow::response(500, "internal server error");
-    //         } });
 
     // Route to add a new note
     CROW_ROUTE(app, "/addNote")
@@ -632,7 +610,7 @@ int main()
                 // Parse JSON data from the request body
                 json requestData = json::parse(req.body);
                 // std::cout << requestData.dump(2);
-                 NoteManager noteManager(name, email, password);
+                NoteManager noteManager(name, email, password);
 
                 // Call the addNote function with the parsed JSON data
                 noteManager.addNote(requestData);
@@ -702,7 +680,7 @@ int main()
                 // Extract parameters from the parsed JSON data
                 std::string id = requestData["id"];
                 int done = requestData["done"];
-                 NoteManager noteManager(name, email, password);
+                NoteManager noteManager(name, email, password);
 
                 // Call the checkNote function with the extracted parameters
                 noteManager.checkNote(id, done);
@@ -737,7 +715,7 @@ int main()
 
                 // Extract parameters from the parsed JSON data
                 std::string id = requestData["id"];
-                 NoteManager noteManager(name, email, password);
+                NoteManager noteManager(name, email, password);
 
                 // Call the deleteNote function with the extracted parameters
                 noteManager.deleteNote(id);
@@ -784,30 +762,6 @@ int main()
                 return crow::response(500, "Internal Server Error");
             } });
 
-    // Route to signup
-    // CROW_ROUTE(app, "/signup")
-    //     .methods("POST"_method)([&noteManager](const crow::request &req)
-    //                             {
-    //         try
-    //         {
-    //             // Parse JSON data from the request body
-    //             json requestData = json::parse(req.body);
-    //             // std::cout << requestData.dump(2);
-
-    //             // Call the addNote function with the parsed JSON data
-    //             // noteManager.addNote(requestData);
-
-    //             // Return a success response
-    //             return crow::response(requestData.dump(2));
-    //         }
-    //         catch (const std::exception &e)
-    //         {
-    //             // Print an error message if an exception occurs
-    //             std::cerr << e.what() << '\n';
-
-    //             // Return an error response
-    //             return crow::response(500, "Internal Server Error");
-    //         } });
 
     app.port(3001)
         .multithreaded()

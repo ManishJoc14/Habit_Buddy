@@ -59,7 +59,7 @@ const LeftSideBar = () => {
         </li>
 
       {/* REVIEW /categories */}
-        <li>
+        {/* <li>
         <Link to='/categories'>
           <span
             className="flex items-center p-2 text-gray-900 rounded-lg group sidebarlink"
@@ -68,7 +68,7 @@ const LeftSideBar = () => {
             <span className="flex-1 ms-3 whitespace-nowrap">Categories</span>
           </span>
           </Link>
-        </li>
+        </li> */}
 
       {/* REVIEW /dashboard */}
         <li>

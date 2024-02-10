@@ -1,11 +1,11 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { login, signup } from "./apis";
+import { changeDetails, login, signup } from "./apis";
 
 export const loginUserAsync = createAsyncThunk(
   "User/login",
-  async ({ email, password}, thunkAPI) => {
+  async ({ email, password }, thunkAPI) => {
     try {
-      const response = await login({email, password});
+      const response = await login({ email, password });
       // console.log(response.data);
       return response?.data; // object; User who is loggedin  {name, email, password, notes}
     } catch (error) {
@@ -13,7 +13,6 @@ export const loginUserAsync = createAsyncThunk(
     }
   }
 );
-
 
 export const signupUserAsync = createAsyncThunk(
   "User/signup",
@@ -28,3 +27,15 @@ export const signupUserAsync = createAsyncThunk(
   }
 );
 
+export const changeDetailsAsync = createAsyncThunk(
+  "User/changeDetails",
+  async ([{ name, email, password }, newDetails], thunkAPI) => {
+    try {
+      const response = await changeDetails({ name, email, password }, newDetails);
+      // console.log(response.data);
+      return response?.data; // object; User which was changed to  {name, email, password, notes}
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  }
+);

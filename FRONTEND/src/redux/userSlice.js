@@ -1,7 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
-    loginUserAsync,
-    signupUserAsync
+  changeDetailsAsync,
+  loginUserAsync,
+  signupUserAsync,
 } from "./userThunk";
 
 const userSlice = createSlice({
@@ -13,7 +14,7 @@ const userSlice = createSlice({
   },
   reducers: {
     addDetails: (state, action) => {
-        state.userDetails = action?.payload;
+      state.userDetails = action?.payload;
     },
   },
   extraReducers: (builder) => {
@@ -32,7 +33,6 @@ const userSlice = createSlice({
         state.error = action?.payload;
       });
 
-
     builder
       .addCase(signupUserAsync.pending, (state) => {
         state.status = "signup/pending";
@@ -44,6 +44,20 @@ const userSlice = createSlice({
       })
       .addCase(signupUserAsync.rejected, (state, action) => {
         state.status = "signup/rejected";
+        state.error = action?.payload;
+      });
+
+    builder
+      .addCase(changeDetailsAsync.pending, (state) => {
+        state.status = "changeDetails/pending";
+      })
+      .addCase(changeDetailsAsync.fulfilled, (state, action) => {
+        state.status = "changeDetails/fulfilled";
+        //console.log(action.payload); // object; new user details
+        state.userDetails = { ...action?.payload };
+      })
+      .addCase(changeDetailsAsync.rejected, (state, action) => {
+        state.status = "changeDetails/rejected";
         state.error = action?.payload;
       });
   },
