@@ -1,9 +1,18 @@
 import React from "react";
 import AddNoteModal from "../addNoteModal";
 import './navbar.css';
-import EditNoteModal from "../editNoteModal";
+import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { deleteNotes } from "../../redux/notesSlice";
 
-const Nav = () => {
+const Nav = ({setIsAuthenticated}) => {
+  const {name, email} = useSelector((state) => state.userDetails.userDetails);
+  const dispatch = useDispatch();
+  const handleSignOut = () => {
+      localStorage.removeItem("userCredentials");
+      setIsAuthenticated(false);
+      dispatch(deleteNotes());
+  }
   return (
     <>
       <nav className="fixed top-0 z-50 w-full" style={{backgroundColor : "rgba(243, 246, 253, 1)"}}>
@@ -32,7 +41,7 @@ const Nav = () => {
                   />
                 </svg>
               </button>
-              <a href="/" className="flex ms-2 md:me-24 ">
+              <Link to="/" className="flex ms-2 md:me-24 ">
                 <img
                   src={require("../../assets/logo.png")}
                   className="h-8 me-3 rounded "
@@ -41,7 +50,7 @@ const Nav = () => {
                 <span className="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap"style={{fontSize:'1.8rem'}}>
                   HabitBuddy
                 </span>
-              </a>
+              </Link>
             </div>
             <div className="flex items-center">
               <div className="flex items-center">
@@ -70,8 +79,8 @@ const Nav = () => {
                     <span className="sr-only">Open user menu</span>
                     <img
                       className="w-8 h-8 rounded-full"
-                      src={require('../../assets/user.jpg')}
-                      alt="userPhoto"
+                      src={require('../../assets/man.png')}
+                      alt="User_Image"
                     />
                   </button>
                 </div>
@@ -84,45 +93,45 @@ const Nav = () => {
                       className="text-sm text-gray-900 dark:text-white"
                       role="none"
                     >
-                      Manish Joshi
+                      {name}
                     </p>
                     <p
                       className="text-sm font-medium text-gray-900 truncate"
                       role="none"
                     >
-                      manishjoc14@gmail.com
+                      {email}
                     </p>
                   </div>
                   <ul className="py-1" role="none">
                     <li>
-                      <a
-                        href=" "
+                      <Link
+                        to="/dashboard"
                         className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 "
                         role="menuitem"
                       >
                         Dashboard
-                      </a>
+                      </Link>
                     </li>
                     <li>
-                      <a
-                        href=" "
+                      <Link 
+                        to="/settings"
                         className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                         role="menuitem"
                       >
                         Settings
-                      </a>
+                      </Link>
                     </li>
                     {/* <li>
                   <a href=" " className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Scores</a>
                 </li> */}
                     <li>
-                      <a
-                        href=" "
+                      <span
                         className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                         role="menuitem"
+                        onClick={handleSignOut}
                       >
                         Sign out
-                      </a>
+                      </span>
                     </li>
                   </ul>
                 </div>

@@ -1,12 +1,10 @@
 import React, { useState } from "react";
 import "../login/login.css";
-import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { signupUserAsync } from "../../redux/userThunk";
 
-const Signup = () => {
+const Signup = ({setIsAuthenticated}) => {
   const dispatch = useDispatch();
-
   const [userData, setUserData] = useState({
     name: "",
     email: "",
@@ -20,18 +18,24 @@ const Signup = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(signupUserAsync({...userData}));
-    localStorage.setItem("userCredentials",JSON.stringify({...userData}));
+    const { name, email, password } = userData;
+    if (name && email && password) {
+      dispatch(signupUserAsync({ ...userData }));
+      localStorage.setItem("userCredentials", JSON.stringify({ ...userData }));
+      setIsAuthenticated(true);    
+    } else {
+      alert("incomplete form");
+    }
   };
   return (
     <>
-      <div className="container">
+      <div className="container ml-auto mt-3">
         <div className="box">
           <div className="header">
             <header>
               <img src="images/logo.png" alt="" />
             </header>
-            <p>SignUp to HabitBuddy</p>
+            <p>Continue to HabitBuddy</p>
           </div>
           <div className="input-box">
             <label htmlFor="name">Name</label>
@@ -81,7 +85,7 @@ const Signup = () => {
           </div>
           <div className="bottom">
             <span>
-              <Link to="/login">Login</Link>
+              {/* <Link to="/login">Login</Link> */}
             </span>
             <span>
               <a href=" ">Forgot Password?</a>

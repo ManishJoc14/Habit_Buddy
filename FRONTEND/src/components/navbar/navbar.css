@@ -10,3 +10,22 @@
     border-radius: 50%;
     margin-right: 10px;
 }
+
+@media (width < 500px) {
+     .addbutton{
+        font-size: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: fixed;
+       bottom: 100px;
+       right: 10px;
+       border-radius: 50%;
+    }
+    
+    
+    .addbutton > span{
+        font-size: 20px;
+        margin-right: 0;
+    }
+}

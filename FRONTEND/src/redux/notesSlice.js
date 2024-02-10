@@ -18,6 +18,9 @@ const notesSlice = createSlice({
     addNote: (state, action) => {
       state.notes.push(action?.payload);
     },
+    deleteNotes: (state, action) => {
+      state.notes = [];
+    },
   },
   extraReducers: (builder) => {
     //addNoteAsync
@@ -104,5 +107,5 @@ const notesSlice = createSlice({
   },
 });
 
-export const { addNote } = notesSlice.actions;
+export const { addNote, deleteNotes } = notesSlice.actions;
 export default notesSlice.reducer;

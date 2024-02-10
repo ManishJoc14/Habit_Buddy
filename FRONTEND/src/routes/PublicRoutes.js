@@ -7,14 +7,12 @@ import Dashboard from './../components/dashboard';
 import Timer from './../components/timer';
 import Settings from './../components/settings';
 import Contact from './../components/contact';
-// import Login from "../components/login";
-// import Signup from "../components/signup";
+
 const PublicRoutes = () => {
   return (
     <>
       <Routes>
         <Route path="/" element={<Notes />} />
-        {/* <Route path="/today" element={<Notes />} /> */}
         <Route path="/tasks" element={<Notes />} />
         <Route path="/habits" element={<Habits />} />
         <Route path="/categories" element={<Categories />} />
@@ -22,8 +20,6 @@ const PublicRoutes = () => {
         <Route path="/timer" element={<Timer />} />
         <Route path="/settings" element={<Settings />} />
         <Route path="/contact" element={<Contact />} />
-        {/* <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signup />} /> */}
       </Routes>
     </>
   );

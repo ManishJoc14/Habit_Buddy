@@ -166,8 +166,10 @@ public:
 
             // REVIEW - Select user's row
             RowResult userRow = userDbTable.select("*")
-                                    .where("userEmail = :USEREMAIL")
+                                    .where("userEmail = :USEREMAIL AND userName = :USERNAME AND userPassword = :USERPASSWORD")
                                     .bind("USEREMAIL", this->userEmail)
+                                    .bind("USERNAME", this->userName)
+                                    .bind("USERPASSWORD", this->userPassword)
                                     .execute();
 
             // NOTE - Get all data of user
@@ -179,8 +181,10 @@ public:
                 std::cout << "Creating User \n";
                 insertUserToTable();
                 RowResult userRow = userDbTable.select("*")
-                                        .where("userEmail = :USEREMAIL")
+                                        .where("userEmail = :USEREMAIL AND userName = :USERNAME AND userPassword = :USERPASSWORD")
                                         .bind("USEREMAIL", this->userEmail)
+                                        .bind("USERNAME", this->userName)
+                                        .bind("USERPASSWORD", this->userPassword)
                                         .execute();
 
                 // NOTE - Get all data of user
@@ -216,7 +220,7 @@ public:
             Table userDbTable = getTable(mySession);
 
             // REVIEW - Inserting to database
-            userDbTable.update().set(User::UserNameColumnName, this->userName).execute();
+            userDbTable.update().set(User::UserNameColumnName, this->userName).where("userEmail = :USEREMAIL AND userName = :USERNAME AND userPassword = :USERPASSWORD").bind("USEREMAIL", this->userEmail).bind("USERNAME", this->userName).bind("USERPASSWORD", this->userPassword).execute();
         }
         catch (const mysqlx::Error &err)
         {
@@ -239,7 +243,7 @@ public:
             Table userDbTable = getTable(mySession);
 
             // REVIEW - Inserting to database
-            userDbTable.update().set(User::UserEmailColumnName, this->userEmail).execute();
+            userDbTable.update().set(User::UserEmailColumnName, this->userEmail).where("userEmail = :USEREMAIL AND userName = :USERNAME AND userPassword = :USERPASSWORD").bind("USEREMAIL", this->userEmail).bind("USERNAME", this->userName).bind("USERPASSWORD", this->userPassword).execute();
         }
         catch (const mysqlx::Error &err)
         {
@@ -262,7 +266,7 @@ public:
             Table userDbTable = getTable(mySession);
 
             // REVIEW - Inserting to database
-            userDbTable.update().set(User::UserPaswordColumnName, this->userPassword).execute();
+            userDbTable.update().set(User::UserPaswordColumnName, this->userPassword).where("userEmail = :USEREMAIL AND userName = :USERNAME AND userPassword = :USERPASSWORD").bind("USEREMAIL", this->userEmail).bind("USERNAME", this->userName).bind("USERPASSWORD", this->userPassword).execute();
         }
         catch (const mysqlx::Error &err)
         {
@@ -285,7 +289,7 @@ public:
             Table userDbTable = getTable(mySession);
 
             // REVIEW - DELETE USER from database
-            userDbTable.remove().where("userEmail = :USEREMAIL AND userName = :USERNAME").bind("USEREMAIL", "").bind("USERNAME", "").execute();
+            userDbTable.remove().where("userEmail = :USEREMAIL AND userName = :USERNAME AND userPassword = :USERPASSWORD").bind("USEREMAIL", this->userEmail).bind("USERNAME", this->userName).bind("USERPASSWORD", this->userPassword).execute();
         }
         catch (const mysqlx::Error &err)
         {
@@ -356,15 +360,18 @@ public:
 
             // REVIEW - Select user's row
             RowResult userRow = userDbTable.select(User::UserNotesColumnName)
-                                    .where("userEmail = :USEREMAIL")
+                                    .where("userEmail = :USEREMAIL AND userName = :USERNAME AND userPassword = :USERPASSWORD")
                                     .bind("USEREMAIL", this->userEmail)
+                                    .bind("USERNAME", this->userName)
+                                    .bind("USERPASSWORD", this->userPassword)
                                     .execute();
 
             // NOTE - Get all Notes of user
             Row Notes = userRow.fetchOne();
             if (!Notes)
             {
-                std::cout << "No matching user found with given email '" << this->userEmail << "'\n";
+                std::cout << "No matching user found with given credientials '"
+                          << "'\n";
             }
             // std::cout << Notes[0].getType();   // this will give 9
 
@@ -422,7 +429,7 @@ public:
             Table userDbTable = getTable(mySession);
 
             // REVIEW - updateNotes in database
-            userDbTable.update().set(User::UserNotesColumnName, notes.dump(2)).where("userEmail = :USEREMAIL AND userName = :USERNAME").bind("USEREMAIL", this->userEmail).bind("USERNAME", this->userName).execute();
+            userDbTable.update().set(User::UserNotesColumnName, notes.dump(2)).where("userEmail = :USEREMAIL AND userName = :USERNAME AND userPassword = :USERPASSWORD").bind("USEREMAIL", this->userEmail).bind("USERNAME", this->userName).bind("USERPASSWORD",this->userPassword).execute();
         }
         catch (const mysqlx::Error &err)
         {

@@ -27,7 +27,6 @@ const Notes = () => {
       } else {
         alert("sigup first");
       }
-      // dispatch(deleteNoteAsync({ id }));
     } catch (error) {
       console.log("Error deleting note" + error);
     }
@@ -44,7 +43,6 @@ const Notes = () => {
       } else {
         alert("sigup first");
       }
-      // dispatch(checkNoteAsync({ id, done }));
     } catch (error) {
       console.log("Error deleting note" + error);
     }

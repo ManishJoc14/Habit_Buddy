@@ -222,3 +222,10 @@ input[type="checkbox"]:focus {
 .daysleft:hover {
   opacity: 1;
 }
+
+
+@media (width < 500px) {
+  .sorter{
+    right: 30px;
+   }
+}

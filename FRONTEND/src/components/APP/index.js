@@ -1,34 +1,19 @@
 import React, { useEffect } from "react";
-import LeftSideBar from "../leftSidebar";
-import RightSideBar from "../rightSidebar/RightsideBar";
+import LeftSideBar from "../leftSidebar/index";
+import Nav from "../navbar/index";
+import RightSideBar from "../rightSidebar/index";
 import { useDispatch } from "react-redux";
 import { viewNoteAsync } from "../../redux/notesThunk";
-import { signupUserAsync } from "../../redux/userThunk";
 
-const AppPage = () => {
+const AppPage = ({ setIsAuthenticated }) => {
   const dispatch = useDispatch();
-
   useEffect(() => {
-    const fetchData = () => {
-      try {
-        const userCredentials = JSON.parse(
-          localStorage.getItem("userCredentials")
-        );
-        if (userCredentials) {
-          dispatch(signupUserAsync(userCredentials));
-          dispatch(viewNoteAsync(userCredentials));
-        } else {
-          alert("sigup first");
-        }
-      } catch (error) {
-        console.log("Error viewing notes: " + error);
-      }
-    };
-
-    fetchData();
-  }, [dispatch]);
+    const userCredentials = JSON.parse(localStorage.getItem("userCredentials"));
+    dispatch(viewNoteAsync({ ...userCredentials }));
+  });
   return (
     <>
+      <Nav setIsAuthenticated={setIsAuthenticated} />
       <LeftSideBar />
       <RightSideBar />
     </>
