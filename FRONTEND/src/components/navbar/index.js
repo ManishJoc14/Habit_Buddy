@@ -1,13 +1,14 @@
 import React from "react";
 import AddNoteModal from "../addNoteModal";
 import './navbar.css';
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteNotes } from "../../redux/notesSlice";
 
 const Nav = ({setIsAuthenticated}) => {
   const {name, email} = useSelector((state) => state.userDetails.userDetails);
   const dispatch = useDispatch();
+  const location = useLocation();
   const handleSignOut = () => {
       localStorage.removeItem("userCredentials");
       setIsAuthenticated(false);
@@ -61,6 +62,7 @@ const Nav = ({setIsAuthenticated}) => {
                 data-modal-toggle="crud-modal"
                 className="addbutton block bg-gray-900 text-white font-medium rounded-lg text-sm px-3 py-3 text-center"
                 type="button"
+                style={{display : location.pathname === '/' || location.pathname === '/tasks' ? '' : 'none'}}
               >
                  <span className="material-symbols-outlined">add</span>
                  Add task
