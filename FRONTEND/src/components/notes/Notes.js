@@ -32,7 +32,8 @@ const Notes = () => {
     }
   };
 
-  const handleCheck = (e, id, done) => {
+    const handleCheck = (e, id, done) => {
+        e.preventDefault();
     try {
       const userCredentials = JSON.parse(
         localStorage.getItem("userCredentials")
