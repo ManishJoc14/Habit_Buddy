@@ -1,4 +1,3 @@
-#define CROW_MAIN
 #include <crow.h>
 #include <crow/app.h>
 #include <crow/middlewares/cors.h>
@@ -13,6 +12,7 @@ using json = nlohmann::json;
 
 class User
 {
+
 public:
     std::string userName;
     std::string userEmail;
@@ -25,6 +25,9 @@ public:
     static const std::string UserPaswordColumnName;
     static const std::string UserNotesColumnName;
 
+    std::string getName(){
+        return userName;
+    }
     User()
     {
         // userName = "Manish";
@@ -78,7 +81,7 @@ public:
     {
 
         // NOTE - Accessing a database schema
-        Schema myDb = mySession.getSchema("habitbuddydatabase");
+        Schema myDb = mySession.getSchema("habbitbuddydatabase");
 
         // NOTE - Accessing a table
         Table userDbTable = myDb.getTable("userdatabase");
@@ -88,38 +91,38 @@ public:
     static void DeleteAlluserData()
     {
         Session mySession = startSession();
-        mySession.sql("DELETE FROM `habitbuddydatabase`.`userdatabase`").execute();
+        mySession.sql("DELETE FROM `habbitbuddydatabase`.`userdatabase`").execute();
     }
 
-    bool signIn(const json &userSignInDetails)
-    {
+    // bool signIn(const json &userSignInDetails)
+    // {
 
-        std::string email = this->userEmail;
-        std::string password = this->userPassword;
+    //     std::string email = this->userEmail;
+    //     std::string password = this->userPassword;
 
-        try
-        {
-            Row userData = selectUserFromTable();
-            if (userData)
-            {
-                std::cout << "login SucessFul";
-                return true;
-            }
-            else
-            {
-                std::cout << "login Failed, User doesn't exist";
-                return false;
-            }
-        }
-        catch (const mysqlx::Error &err)
-        {
-            std::cerr << "MySQL X DevAPI Server Error: " << err << std::endl;
-        }
-        catch (const std::exception &ex)
-        {
-            std::cerr << "Standard Exception: " << ex.what() << std::endl;
-        }
-    }
+    //     try
+    //     {
+    //         Row userData = selectUserFromTable();
+    //         if (userData)
+    //         {
+    //             std::cout << "login SucessFul";
+    //             return true;
+    //         }
+    //         else
+    //         {
+    //             std::cout << "login Failed, User doesn't exist";
+    //             return false;
+    //         }
+    //     }
+    //     catch (const mysqlx::Error &err)
+    //     {
+    //         std::cerr << "MySQL X DevAPI Server Error: " << err << std::endl;
+    //     }
+    //     catch (const std::exception &ex)
+    //     {
+    //         std::cerr << "Standard Exception: " << ex.what() << std::endl;
+    //     }
+    // }
 
     void insertUserToTable()
     {
@@ -268,8 +271,10 @@ public:
     }
 };
 
-// REVIEW - constant static strings
-const std::string User::URL = "mysqlx://root:root@127.0.0.1:33060";
+
+//const std::string User::URL = "mysqlx://root:root@127.0.0.1:33060";
+//const std::string User::URL = "mysqlx://Manish:Manishjoshi123@127.0.0.1:33060";
+const std::string User::URL = "mysqlx://neev:root@127.0.0.1:33060";
 const std::string User::UserNameColumnName = "userName";
 const std::string User::UserEmailColumnName = "userEmail";
 const std::string User::UserPaswordColumnName = "userPassword";
