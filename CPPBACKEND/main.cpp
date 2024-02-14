@@ -1,5 +1,5 @@
 #define CROW_MAIN
-#include <crow/crow.h>
+#include <crow.h>
 #include <crow/app.h>
 #include <crow/middlewares/cors.h>
 #include <mysqlx/xdevapi.h>
@@ -269,7 +269,7 @@ public:
 };
 
 // REVIEW - constant static strings
-const std::string User::URL = "mysqlx://Manish:Manishjoshi123@127.0.0.1:33060";
+const std::string User::URL = "mysqlx://root:root@127.0.0.1:33060";
 const std::string User::UserNameColumnName = "userName";
 const std::string User::UserEmailColumnName = "userEmail";
 const std::string User::UserPaswordColumnName = "userPassword";
