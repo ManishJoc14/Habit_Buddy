@@ -13,6 +13,7 @@ using json = nlohmann::json;
 
 class User
 {
+
 public:
     std::string userName;
     std::string userEmail;
@@ -25,6 +26,9 @@ public:
     static const std::string UserPaswordColumnName;
     static const std::string UserNotesColumnName;
 
+    std::string getName(){
+        return userName;
+    }
     User()
     {
         // userName = "Manish";
@@ -91,35 +95,35 @@ public:
         mySession.sql("DELETE FROM `habbitbuddydatabase`.`userdatabase`").execute();
     }
 
-    bool signIn(const json &userSignInDetails)
-    {
+    // bool signIn(const json &userSignInDetails)
+    // {
 
-        std::string email = this->userEmail;
-        std::string password = this->userPassword;
+    //     std::string email = this->userEmail;
+    //     std::string password = this->userPassword;
 
-        try
-        {
-            Row userData = selectUserFromTable();
-            if (userData)
-            {
-                std::cout << "login SucessFul";
-                return true;
-            }
-            else
-            {
-                std::cout << "login Failed, User doesn't exist";
-                return false;
-            }
-        }
-        catch (const mysqlx::Error &err)
-        {
-            std::cerr << "MySQL X DevAPI Server Error: " << err << std::endl;
-        }
-        catch (const std::exception &ex)
-        {
-            std::cerr << "Standard Exception: " << ex.what() << std::endl;
-        }
-    }
+    //     try
+    //     {
+    //         Row userData = selectUserFromTable();
+    //         if (userData)
+    //         {
+    //             std::cout << "login SucessFul";
+    //             return true;
+    //         }
+    //         else
+    //         {
+    //             std::cout << "login Failed, User doesn't exist";
+    //             return false;
+    //         }
+    //     }
+    //     catch (const mysqlx::Error &err)
+    //     {
+    //         std::cerr << "MySQL X DevAPI Server Error: " << err << std::endl;
+    //     }
+    //     catch (const std::exception &ex)
+    //     {
+    //         std::cerr << "Standard Exception: " << ex.what() << std::endl;
+    //     }
+    // }
 
     void insertUserToTable()
     {

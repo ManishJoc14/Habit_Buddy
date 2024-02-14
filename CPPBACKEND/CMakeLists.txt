@@ -22,7 +22,7 @@ find_package(unofficial-mysql-connector-cpp CONFIG REQUIRED)
 set(nlohmann_json C:/Users/manis/OneDrive/Desktop/vcpkg/installed/x64-windows/share/nlohmann_json )
 find_package(nlohmann_json CONFIG REQUIRED)
 
-add_executable(${PROJECT_NAME} main.cpp)
+add_executable(${PROJECT_NAME} main.cpp NoteManager.cpp User.cpp)
 
 target_link_libraries(${PROJECT_NAME} PRIVATE Crow::Crow unofficial::mysql-connector-cpp::connector nlohmann_json::nlohmann_json)
 
