@@ -18,7 +18,6 @@ const Notes = () => {
   const dispatch = useDispatch();
 
   const handleDelete = (e, id) => {
-    e.preventDefault();
     try {
       const userCredentials = JSON.parse(
         localStorage.getItem("userCredentials")
@@ -34,7 +33,6 @@ const Notes = () => {
   };
 
   const handleCheck = (e, id, done) => {
-    e.preventDefault();
     try {
       const userCredentials = JSON.parse(
         localStorage.getItem("userCredentials")
@@ -50,7 +48,6 @@ const Notes = () => {
     }
   };
   const handleEdit = (e, note) => {
-    e.preventDefault();
     const modal = document.getElementById("modalEdit");
     modal.classList.remove("hidden");
     setNoteTobeEdit(note);

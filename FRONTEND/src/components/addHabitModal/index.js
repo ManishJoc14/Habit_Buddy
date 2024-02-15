@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { addHabitAsync } from "../../redux/notesThunk";
+import { addHabitAsync } from "../../redux/habitsThunk";
 import { v4 as uuidv4 } from "uuid";
 
-const AddNoteModal = () => {
+const AddHabitModal = () => {
   const dispatch = useDispatch();
   const [habitData, setHabitData] = useState({
     id: uuidv4(),
@@ -75,11 +75,15 @@ const AddNoteModal = () => {
     const { name, value } = e.target;
     setHabitData((prev) => ({ ...prev, [name]: value }));
   };
+  const closeModal = ()=>{
+    const elem = document.getElementById("modalAddHabit");
+    elem.classList.add("hidden");
+  }
   // console.log(habitData);
   return (
     <>
       <div
-        id="crud-modal"
+        id="modalAddHabit"
         tabIndex={-1}
         aria-hidden="true"
         className="hidden cursor-pointer overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full"
@@ -90,14 +94,14 @@ const AddNoteModal = () => {
             {/* REVIEW Modal header */}
             <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
               <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-                Add new task
+                Add new Habit
               </h3>
 
               {/* REVIEW Add Button */}
               <button
                 type="button"
+                onClick={closeModal}
                 className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
-                data-modal-toggle="crud-modal"
               >
                 <svg
                   className="w-3 h-3"
@@ -293,7 +297,7 @@ const AddNoteModal = () => {
                     clipRule="evenodd"
                   />
                 </svg>
-                Add Task
+                Add Habit
               </button>
             </form>
           </div>
@@ -303,4 +307,4 @@ const AddNoteModal = () => {
   );
 };
 
-export default AddNoteModal;
+export default AddHabitModal;

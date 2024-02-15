@@ -1,45 +1,66 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { addNoteAsync } from "../../redux/notesThunk";
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from "uuid";
 
 const AddNoteModal = () => {
   const dispatch = useDispatch();
   const [noteData, setNoteData] = useState({
-    id : uuidv4(),
+    id: uuidv4(),
     note: "",
     category: "",
     startDate: "",
     endDate: "",
     description: "",
     priority: 1,
-    done : false
+    done: false,
   });
 
   const handleSubmit = (e) => {
     e.preventDefault();
     try {
-      const {id, note, category, startDate, endDate, description, priority, done} = noteData;
-      if(id && note && category && startDate && endDate && description && priority && !done){
+      const {
+        id,
+        note,
+        category,
+        startDate,
+        endDate,
+        description,
+        priority,
+        done,
+      } = noteData;
+      if (
+        id &&
+        note &&
+        category &&
+        startDate &&
+        endDate &&
+        description &&
+        priority &&
+        !done
+      ) {
+        const userCredentials = JSON.parse(
+          localStorage.getItem("userCredentials")
+        );
+        if (userCredentials) {
+          dispatch(addNoteAsync([noteData, userCredentials]));
+          const elem = document.getElementById("modalAddNote");
+          elem.classList.remove("hidden");
+        } else {
+          alert("sigup first");
+        }
 
-        const userCredentials = JSON.parse(localStorage.getItem("userCredentials"));
-       if(userCredentials){
-        dispatch(addNoteAsync([ noteData, userCredentials ]));
-       }else{
-        alert("sigup first");
-       }
-       
         setNoteData({
-          id : uuidv4(),
+          id: uuidv4(),
           note: "",
           category: "",
           startDate: "",
           endDate: "",
           description: "",
           priority: 1,
-          done : false
+          done: false,
         });
-      }else{
+      } else {
         alert("Incomplete");
       }
     } catch (error) {
@@ -52,11 +73,16 @@ const AddNoteModal = () => {
     const { name, value } = e.target;
     setNoteData((prev) => ({ ...prev, [name]: value }));
   };
+
+  const closeModal = () => {
+    const elem = document.getElementById("modalAddNote");
+    elem.classList.add("hidden");
+  };
   // console.log(noteData);
   return (
     <>
       <div
-        id="crud-modal"
+        id="modalAddNote"
         tabIndex={-1}
         aria-hidden="true"
         className="hidden cursor-pointer overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full"
@@ -64,7 +90,6 @@ const AddNoteModal = () => {
         <div className="relative p-4 w-full max-w-md max-h-full">
           {/* REVIEW[epic=AddModal] Modal content */}
           <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
-
             {/* REVIEW Modal header */}
             <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
               <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
@@ -74,8 +99,8 @@ const AddNoteModal = () => {
               {/* REVIEW Add Button */}
               <button
                 type="button"
+                onClick={closeModal}
                 className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
-                data-modal-toggle="crud-modal"
               >
                 <svg
                   className="w-3 h-3"
@@ -213,11 +238,21 @@ const AddNoteModal = () => {
                     className="bg-gray-50 cursor-pointer border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                   >
                     <option className="cursor-pointer">Select category</option>
-                    <option className="cursor-pointer"value="Health">Health</option>
-                    <option className="cursor-pointer"value="Study">Study</option>
-                    <option className="cursor-pointer"value="Exercise">Exercise</option>
-                    <option className="cursor-pointer"value="Entertainmaint">Entertainmaint</option>
-                    <option className="cursor-pointer"value="Sleep">Sleep</option>
+                    <option className="cursor-pointer" value="Health">
+                      Health
+                    </option>
+                    <option className="cursor-pointer" value="Study">
+                      Study
+                    </option>
+                    <option className="cursor-pointer" value="Exercise">
+                      Exercise
+                    </option>
+                    <option className="cursor-pointer" value="Entertainmaint">
+                      Entertainmaint
+                    </option>
+                    <option className="cursor-pointer" value="Sleep">
+                      Sleep
+                    </option>
                   </select>
                 </div>
 
@@ -264,7 +299,6 @@ const AddNoteModal = () => {
                 Add Task
               </button>
             </form>
-
           </div>
         </div>
       </div>

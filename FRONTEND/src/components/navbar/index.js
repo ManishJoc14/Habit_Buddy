@@ -1,22 +1,38 @@
 import React from "react";
 import AddNoteModal from "../addNoteModal";
-import './navbar.css';
+import "./navbar.css";
 import { Link, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteNotes } from "../../redux/notesSlice";
+import AddHabitModal from "../addHabitModal";
 
-const Nav = ({setIsAuthenticated}) => {
-  const {name, email} = useSelector((state) => state.userDetails.userDetails);
-  const dispatch = useDispatch();
+const Nav = ({ setIsAuthenticated }) => {
+  const { name, email } = useSelector((state) => state.userDetails.userDetails);
   const location = useLocation();
+  const dispatch = useDispatch();
   const handleSignOut = () => {
-      localStorage.removeItem("userCredentials");
-      setIsAuthenticated(false);
-      dispatch(deleteNotes());
-  }
+    localStorage.removeItem("userCredentials");
+    setIsAuthenticated(false);
+    dispatch(deleteNotes());
+  };
+  const handleAddTask = () => {
+    const elem = document.getElementById("modalAddNote");
+    elem.classList.remove("hidden");
+  };
+  const handleAddHabit = () => {
+    const elem = document.getElementById("modalAddHabit");
+    elem.classList.remove("hidden");
+  };
+  const openUser = () => {
+    const elem = document.getElementById("dropdownUser");
+    elem.classList.toggle("hidden");
+  };
   return (
     <>
-      <nav className="fixed top-0 z-50 w-full" style={{backgroundColor : "rgba(243, 246, 253, 1)"}}>
+      <nav
+        className="fixed top-0 z-50 w-full"
+        style={{ backgroundColor: "rgba(243, 246, 253, 1)" }}
+      >
         <div className="px-3 py-3 lg:px-5 lg:pl-3">
           <div className="flex items-center justify-between flex-wrap gap-2">
             <div className="flex items-center justify-start rtl:justify-end">
@@ -48,47 +64,70 @@ const Nav = ({setIsAuthenticated}) => {
                   className="h-8 me-3 rounded "
                   alt="Habbit Buddy Logo"
                 />
-                <span className="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap"style={{fontSize:'1.8rem'}}>
+                <span
+                  className="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap"
+                  style={{ fontSize: "1.8rem" }}
+                >
                   HabitBuddy
                 </span>
               </Link>
             </div>
             <div className="flex items-center">
               <div className="flex items-center">
-              <div className="mx-4">
-                {/* Modal toggle */}
-              <button
-                data-modal-target="crud-modal"
-                data-modal-toggle="crud-modal"
-                className="addbutton block bg-gray-900 text-white font-medium rounded-lg text-sm px-3 py-3 text-center"
-                type="button"
-                style={{display : location.pathname === '/' || location.pathname === '/tasks' ? '' : 'none'}}
-              >
-                 <span className="material-symbols-outlined">add</span>
-                 Add task
-              </button>
-              {/* SECTION Main modal */}
-              <AddNoteModal />
-              {/* <EditNoteModal /> */}
-              </div>
+                <div className="mx-4">
+                  {/* Modal toggle */}
+                  <button
+                    data-modal-target="crud-modal"
+                    data-modal-toggle="crud-modal"
+                    className="addbutton block bg-gray-900 text-white font-medium rounded-lg text-sm px-3 py-3 text-center"
+                    type="button"
+                    onClick={
+                      location.pathname === "/tasks"
+                        ? handleAddTask
+                        : handleAddHabit
+                    }
+                    style={{
+                      display:
+                        location.pathname === "/" ||
+                        location.pathname === "/tasks" ||
+                        location.pathname === "/habits"
+                          ? ""
+                          : "none",
+                    }}
+                  >
+                    <span className="material-symbols-outlined">add</span>
+                    Add {location.pathname === "/tasks" ? "task" : "habit"}
+                  </button>
+                  {/* SECTION Main modal */}
+                  <AddNoteModal />
+                  <AddHabitModal/>
+                  {/* <EditNoteModal /> */}
+                </div>
                 <div>
                   <button
                     type="button"
                     className="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300"
                     aria-expanded="false"
-                    data-dropdown-toggle="dropdown-user"
+                    onClick={openUser}
                   >
                     <span className="sr-only">Open user menu</span>
                     <img
                       className="w-8 h-8 rounded-full"
-                      src={require('../../assets/man.png')}
+                      src={require("../../assets/man.png")}
                       alt="User_Image"
                     />
                   </button>
                 </div>
                 <div
-                  className="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded shadow"
-                  id="dropdown-user"
+                  className="z-50 fixed top-6 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded shadow"
+                  style={{
+                    marginLeft:
+                      location.pathname === "/tasks" ||
+                      location.pathname === "/habits"
+                        ? "10px"
+                        : "-80px",
+                  }}
+                  id="dropdownUser"
                 >
                   <div className="px-4 py-3" role="none">
                     <p
@@ -115,7 +154,7 @@ const Nav = ({setIsAuthenticated}) => {
                       </Link>
                     </li>
                     <li>
-                      <Link 
+                      <Link
                         to="/settings"
                         className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                         role="menuitem"
