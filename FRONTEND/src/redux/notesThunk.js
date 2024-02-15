@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { add_Note, delete_Note, view_Note , check_Note, edit_Note } from "./apis";
+import { add_Note, delete_Note, view_Note , check_Note, edit_Note } from "./notesApis";
 
 export const addNoteAsync = createAsyncThunk(
   "notesManager/addNoteAsync",
