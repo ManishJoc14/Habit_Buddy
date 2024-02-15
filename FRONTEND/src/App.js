@@ -11,9 +11,15 @@ function App() {
   useEffect(() => {
     const userCredentials = JSON.parse(localStorage.getItem("userCredentials")); 
     if (userCredentials) {
-      dispatch(signupUserAsync({ ...userCredentials }));
-      dispatch(viewNoteAsync({...userCredentials}));
-      setIsAuthenticated(true);
+      dispatch(signupUserAsync({ ...userCredentials }))
+      .unwrap()
+      .then(() => {
+        dispatch(viewNoteAsync({ ...userCredentials }));
+        setIsAuthenticated(true);
+      })
+      .catch((error) => {
+        console.error("Signup failed:", error);
+      });
     } else {
       setIsAuthenticated(false);
     }

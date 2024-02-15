@@ -18,12 +18,13 @@ const Notes = () => {
   const dispatch = useDispatch();
 
   const handleDelete = (e, id) => {
+    e.preventDefault();
     try {
       const userCredentials = JSON.parse(
         localStorage.getItem("userCredentials")
       );
       if (userCredentials) {
-        dispatch(deleteNoteAsync([ {id}, userCredentials]));
+        dispatch(deleteNoteAsync([{ id }, userCredentials]));
       } else {
         alert("sigup first");
       }
@@ -32,15 +33,15 @@ const Notes = () => {
     }
   };
 
-    const handleCheck = (e, id, done) => {
-        e.preventDefault();
+  const handleCheck = (e, id, done) => {
+    e.preventDefault();
     try {
       const userCredentials = JSON.parse(
         localStorage.getItem("userCredentials")
       );
 
       if (userCredentials) {
-        dispatch(checkNoteAsync([ {id, done}, userCredentials]));
+        dispatch(checkNoteAsync([{ id, done }, userCredentials]));
       } else {
         alert("sigup first");
       }
@@ -49,6 +50,7 @@ const Notes = () => {
     }
   };
   const handleEdit = (e, note) => {
+    e.preventDefault();
     const modal = document.getElementById("modalEdit");
     modal.classList.remove("hidden");
     setNoteTobeEdit(note);

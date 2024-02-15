@@ -15,6 +15,7 @@ public:
     std::string userName;
     std::string userEmail;
     std::string userPassword;
+
     static const std::string URL;
     static const std::string SchemaName;
     static const std::string TableName;
@@ -22,3 +23,15 @@ public:
     static const std::string UserEmailColumnName;
     static const std::string UserPaswordColumnName;
     static const std::string UserNotesColumnName;
+
+    User();
+    User(std::string name, std::string email, std::string password);
+    json getUserDetails();
+    static Session startSession();
+    static Table getTable(Session &mySession);
+    static void DeleteAlluserData();
+    void insertUserToTable();
+    Row selectUserFromTable();
+    void changeUserDetails(std::string newName, std::string newEmail, std::string newPassword);
+    void deleteUser();
+};
