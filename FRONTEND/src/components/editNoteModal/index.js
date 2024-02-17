@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { editNoteAsync } from "../../redux/notesThunk";
+import { toast } from "react-toastify";
 
 const EditNoteModal = ({ noteTobeEdited }) => {
   const dispatch = useDispatch();
@@ -39,19 +40,17 @@ const EditNoteModal = ({ noteTobeEdited }) => {
         const userCredentials = JSON.parse(localStorage.getItem("userCredentials"));
         if(userCredentials){
          dispatch(editNoteAsync([ noteData, userCredentials ]));
+         toast.success("Edited!!")
         }else{
-         alert("sigup first");
+          toast.error("sigup first !!");
         }
-
-        // dispatch(editNoteAsync({ ...noteData }));
         const modal = document.getElementById("modalEdit");
         modal.classList.add("hidden");
-      } else {
-        alert("Incomplete");
+      } else { toast.error("Incomplete Form !!");
+
       }
     } catch (error) {
-      // Handle the error, you can log it or show a user-friendly message
-      console.error("Error adding note:", error.message);
+      toast.error("Error adding note !! :", error.message);
     }
   };
 

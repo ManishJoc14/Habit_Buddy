@@ -4,7 +4,7 @@ import OtherRoute from "./routes/OtherRoute";
 import { useDispatch } from "react-redux";
 import { signupUserAsync } from "./redux/userThunk";
 import { viewNoteAsync } from "./redux/notesThunk";
-
+import { toast } from 'react-toastify';
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const dispatch = useDispatch();
@@ -16,9 +16,11 @@ function App() {
       .then(() => {
         dispatch(viewNoteAsync({ ...userCredentials }));
         setIsAuthenticated(true);
+        toast.success("Welcome to HabitBuddy");
       })
       .catch((error) => {
         console.error("Signup failed:", error);
+        toast.error("Signup failed:", error);
       });
     } else {
       setIsAuthenticated(false);

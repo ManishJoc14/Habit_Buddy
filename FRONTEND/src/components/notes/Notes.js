@@ -9,6 +9,7 @@ import "./Note.css";
 import Calenderstrip from "../calenderStrip";
 import NoteHeader from "./NoteHeader";
 import EditNoteModal from "../editNoteModal";
+import { toast } from "react-toastify";
 
 const Notes = () => {
   const [noteToBeRendered, setNotesToBeRendered] = useState([]);
@@ -18,21 +19,24 @@ const Notes = () => {
   const dispatch = useDispatch();
 
   const handleDelete = (e, id) => {
+    e.preventDefault();
     try {
       const userCredentials = JSON.parse(
         localStorage.getItem("userCredentials")
       );
       if (userCredentials) {
         dispatch(deleteNoteAsync([{ id }, userCredentials]));
+        toast.success("Deleted !!");
       } else {
-        alert("sigup first");
+        toast.error("sigup first !!");
       }
     } catch (error) {
-      console.log("Error deleting note" + error);
+      toast.error("Error deleting note !! :", error.message);
     }
   };
 
   const handleCheck = (e, id, done) => {
+    e.preventDefault();
     try {
       const userCredentials = JSON.parse(
         localStorage.getItem("userCredentials")
@@ -40,11 +44,12 @@ const Notes = () => {
 
       if (userCredentials) {
         dispatch(checkNoteAsync([{ id, done }, userCredentials]));
+        done ? toast.success("Unchecked !!") : toast.success("Checked !!");
       } else {
-        alert("sigup first");
+        toast.error("sigup first !!");
       }
     } catch (error) {
-      console.log("Error deleting note" + error);
+      toast.error("Error checking note !! :", error.message);
     }
   };
   const handleEdit = (e, note) => {
@@ -52,8 +57,9 @@ const Notes = () => {
     modal.classList.remove("hidden");
     setNoteTobeEdit(note);
   };
-  const handlechange = () => {};
-
+  const handlechange = ()=>{
+    
+  }
   return (
     <>
       <NoteHeader

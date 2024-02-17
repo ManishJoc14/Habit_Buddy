@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styles from "./Settings.module.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { changeDetailsAsync } from "../../redux/userThunk";
+import { toast } from "react-toastify";
 
 const Settings = () => {
   const { name, email, password } = useSelector(
@@ -69,9 +70,12 @@ const AuthModal = () => {
 
     if (name && email && password) {
       dispatch(changeDetailsAsync([userDetails, newDetils]));
+      toast.success("Details Changed !!");
+      const elem = document.getElementById("authentication-modal");
+      elem.classList.add("hidden");
       localStorage.setItem("userCredentials", JSON.stringify({ ...newDetils }));
     } else {
-      alert("incomplete details");
+      toast.error("Incomplete details !!");
     }
   };
 

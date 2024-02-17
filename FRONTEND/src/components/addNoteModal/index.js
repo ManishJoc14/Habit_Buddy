@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { addNoteAsync } from "../../redux/notesThunk";
 import { v4 as uuidv4 } from "uuid";
+import { toast } from 'react-toastify';
 
 const AddNoteModal = () => {
   const dispatch = useDispatch();
@@ -44,10 +45,11 @@ const AddNoteModal = () => {
         );
         if (userCredentials) {
           dispatch(addNoteAsync([noteData, userCredentials]));
+          toast.success("Added!!");
           const elem = document.getElementById("modalAddNote");
           elem.classList.remove("hidden");
         } else {
-          alert("sigup first");
+          toast.error("sigup first !!");
         }
 
         setNoteData({
@@ -61,11 +63,11 @@ const AddNoteModal = () => {
           done: false,
         });
       } else {
-        alert("Incomplete");
+        // alert("Incomplete");
+        toast.error("Incomplete Form !!");
       }
     } catch (error) {
-      // Handle the error, you can log it or show a user-friendly message
-      console.error("Error adding note:", error.message);
+      toast.error("Error adding note !! :", error.message);
     }
   };
 
@@ -78,7 +80,6 @@ const AddNoteModal = () => {
     const elem = document.getElementById("modalAddNote");
     elem.classList.add("hidden");
   };
-  // console.log(noteData);
   return (
     <>
       <div

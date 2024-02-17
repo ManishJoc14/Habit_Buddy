@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { addHabitAsync } from "../../redux/habitsThunk";
 import { v4 as uuidv4 } from "uuid";
+import { toast } from 'react-toastify';
 
 const AddHabitModal = () => {
   const dispatch = useDispatch();
@@ -47,8 +48,9 @@ const AddHabitModal = () => {
         );
         if (userCredentials) {
           dispatch(addHabitAsync([habitData, userCredentials]));
+          toast.success("Added !!")
         } else {
-          alert("sigup first");
+          toast.error("sigup first !!");
         }
 
         setHabitData({
@@ -63,11 +65,11 @@ const AddHabitModal = () => {
           completedDays: [],
         });
       } else {
-        alert("Incomplete");
+        toast.error("Incomplete form !!");
       }
     } catch (error) {
       // Handle the error, you can log it or show a user-friendly message
-      console.error("Error adding note:", error.message);
+      toast.error("Error adding note !! :", error.message);
     }
   };
 

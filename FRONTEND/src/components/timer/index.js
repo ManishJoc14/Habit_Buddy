@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useTimer, useTime, useStopwatch } from "react-timer-hook";
 import "./timer.css";
+import { toast } from "react-toastify";
 
 const TimerComponent = ({ mins, setIsTimerVisibe }) => {
   const time = new Date();
@@ -9,11 +10,14 @@ const TimerComponent = ({ mins, setIsTimerVisibe }) => {
 
   const { seconds, minutes, hours, days, pause, resume, restart } = useTimer({
     time,
-    onExpire: () => alert("Timer Expired"),
+    onExpire: () => toast.error("Time Up !!")
   });
+
   const end = () => {
     setIsTimerVisibe(false);
+    toast.warn("Timer ended !!");
   };
+  
   useEffect(() => {
     const time = new Date();
     time.setSeconds(time.getSeconds() + secs);
@@ -60,6 +64,7 @@ const Timer = () => {
   };
   const handleSet = () => {
     setIsTimerVisibe(true);
+    toast.success("Timer started !!");
   };
   return (
     <>
@@ -78,7 +83,10 @@ const Timer = () => {
           <label htmlFor="timerInput" style={{ fontSize: "12px" }}>
             Enter value in minutes
           </label>
-          <button className="timerButtons startButtons mt-5" onClick={handleSet}>
+          <button
+            className="timerButtons startButtons mt-5"
+            onClick={handleSet}
+          >
             Start Timer
           </button>
         </div>
@@ -100,7 +108,10 @@ const Stopwatch = () => {
     <>
       {!isStopWatchVisible ? (
         <div className="timerMain mt-10">
-          <button className="timerButtons startButtons mt-5" onClick={handleSet}>
+          <button
+            className="timerButtons startButtons mt-5"
+            onClick={handleSet}
+          >
             Start Stopwatch
           </button>
         </div>
@@ -125,7 +136,7 @@ const StopwatchComponent = ({ setIsStopWatchVisibe }) => {
         <span>{days}</span>:<span>{hours}</span>:<span>{minutes}</span>:
         <span>{seconds}</span>
       </div>
-    
+
       <div className="timerBtn">
         <button onClick={start} className="timerButtons">
           Start
