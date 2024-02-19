@@ -23,6 +23,7 @@ public:
     static const std::string UserEmailColumnName;
     static const std::string UserPaswordColumnName;
     static const std::string UserNotesColumnName;
+    static const std::string UserHabitsColumnName;
 
     User();
     User(std::string name, std::string email, std::string password);

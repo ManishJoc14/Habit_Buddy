@@ -30,14 +30,14 @@ export const add_Habit = (
   
   // viewHabit
   export const view_Habit = ({ name, email, password }) => {
-    return axios.get("http://localhost:3001/viewHabit", {
+    return axios.get(`${REACT_APP_BASE_URL}/viewHabit`, {
       headers: { name, email, password },
     });
   };
   // deleteHabit
   export const delete_Habit = ({ id }, { name, email, password }) => {
-    return axios.post(
-      "http://localhost:3001/deleteHabit",
+    return axios.delete(
+      `${REACT_APP_BASE_URL}/deleteHabit`,
       { id },
       { headers: { name, email, password } }
     );
@@ -46,7 +46,7 @@ export const add_Habit = (
   // checkHabit
   export const check_Habit = ({ id, done }, { name, email, password }) => {
     return axios.post(
-      "http://localhost:3001/checkHabit",
+      `${REACT_APP_BASE_URL}/checkHabit`,
       { id, done },
       { headers: { name, email, password } }
     );

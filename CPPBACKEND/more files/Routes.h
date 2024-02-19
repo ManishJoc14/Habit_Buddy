@@ -7,4 +7,4 @@
 using json = nlohmann::json;
 
 // Function declaration to include routes in the provided Crow app
-void includeRoutes(crow::App<crow::CORSHandler> &app);
+void includeRoutes(crow::App &app);

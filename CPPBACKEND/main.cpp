@@ -1,5 +1,6 @@
 #include "User.h"
 #include "NoteManager.h"
+#include "HabitManager.h"
 
 #include <crow.h>
 #include <crow/app.h>
@@ -48,7 +49,8 @@ int main()
                 // Return an error response
                 return crow::response(500, "internal server error");
             } });
-    // Route to signup
+
+    // Route to change user details
     CROW_ROUTE(app, "/changeDetails")
         .methods("POST"_method)([](const crow::request &req)
                                 {
@@ -117,6 +119,39 @@ int main()
                 return crow::response(500, "Internal Server Error");
             } });
 
+    // Route to add a new habit
+    CROW_ROUTE(app, "/addHabit")
+        .methods("POST"_method)([](const crow::request &req)
+                                {
+            try
+            {
+                 // Extract email and password from request headers
+                std::string name = req.get_header_value("name");
+                std::string email = req.get_header_value("email");
+                std::string password = req.get_header_value("password");
+
+                std::cout << name << email << password;
+               
+                // Parse JSON data from the request body
+                json requestData = json::parse(req.body);
+                // std::cout << requestData.dump(2);
+                HabitManager habitManager(name, email, password);
+
+                // Call the addHabit function with the parsed JSON data
+                habitManager.addHabit(requestData);
+
+                // Return a success response
+                return crow::response(requestData.dump(2));
+            }
+            catch (const std::exception &e)
+            {
+                // Print an error message if an exception occurs
+                std::cerr << e.what() << '\n';
+
+                // Return an error response
+                return crow::response(500, "Internal Server Error");
+            } });
+
     // Route to edit note
     CROW_ROUTE(app, "/editNote")
         .methods("POST"_method)([](const crow::request &req)
@@ -137,6 +172,37 @@ int main()
 
                 // Call the editNote function with the parsed JSON data
                 noteManager.editNote(requestData);
+
+                // Return a success response
+                return crow::response(requestData.dump(2));
+            }
+            catch (const std::exception &e)
+            {
+                // Print an error message if an exception occurs
+                std::cerr << e.what() << '\n';
+
+                // Return an error response
+                return crow::response(500, "Internal Server Error");
+            } });
+
+    // Route to edit habit
+    CROW_ROUTE(app, "/editHabit")
+        .methods("POST"_method)([](const crow::request &req)
+                                {
+            try
+            {
+                 // Extract email and password from request headers
+                std::string name = req.get_header_value("name");
+                std::string email = req.get_header_value("email");
+                std::string password = req.get_header_value("password");
+
+                // Parse JSON data from the request body
+                json requestData = json::parse(req.body);
+                // std::cout << requestData.dump(2);
+                HabitManager habitManager(name, email, password);
+
+                // Call the editHabit function with the parsed JSON data
+                habitManager.editHabit(requestData);
 
                 // Return a success response
                 return crow::response(requestData.dump(2));
@@ -186,10 +252,44 @@ int main()
                 return crow::response(500, "Internal Server Error");
             } });
 
-    // Route to delete a note
-    CROW_ROUTE(app, "/deleteNote")
+    // Route to mark a habit as done
+    CROW_ROUTE(app, "/checkHabit")
         .methods("POST"_method)([](const crow::request &req)
                                 {
+            try
+            {
+                 // Extract email and password from request headers
+                std::string name = req.get_header_value("name");
+                std::string email = req.get_header_value("email");
+                std::string password = req.get_header_value("password");
+
+                // Parse JSON data from the request body
+                json requestData = json::parse(req.body);
+                // std::cout << requestData.dump(2);
+
+                // Extract parameters from the parsed JSON data
+                std::string id = requestData["id"];
+                int done = requestData["done"];
+                HabitManager habitManager(name, email, password);
+
+                // Call the checkHabit function with the extracted parameters
+                habitManager.checkHabit(id, done);
+
+                // Return a success response
+                return crow::response(id);
+            }
+            catch (const std::exception &e)
+            {
+                // Print an error message if an exception occurs
+                std::cerr << e.what() << '\n';
+                // Return an error response
+                return crow::response(500, "Internal Server Error");
+            } });
+
+    // Route to delete a note
+    CROW_ROUTE(app, "/deleteNote")
+        .methods("DELETE"_method)([](const crow::request &req)
+                                  {
             try
             {
                  // Extract email and password from request headers
@@ -209,6 +309,40 @@ int main()
 
                 // Call the deleteNote function with the extracted parameters
                 noteManager.deleteNote(id);
+
+                // Return a success response
+                return crow::response(id);
+            }
+            catch (const std::exception &e)
+            {
+                // Print an error message if an exception occurs
+                std::cerr << e.what() << '\n';
+
+                // Return an error response
+                return crow::response(500, "Internal Server Error");
+            } });
+
+    // Route to delete a habit
+    CROW_ROUTE(app, "/deleteHabit")
+        .methods("DELETE"_method)([](const crow::request &req)
+                                  {
+            try
+            {
+                 // Extract email and password from request headers
+                std::string name = req.get_header_value("name");
+                std::string email = req.get_header_value("email");
+                std::string password = req.get_header_value("password");
+
+                // Parse JSON data from the request body
+                json requestData = json::parse(req.body);
+                // std::cout << requestData.dump(2);
+
+                // Extract parameters from the parsed JSON data
+                std::string id = requestData["id"];
+                HabitManager habitManager(name, email, password);
+
+                // Call the deleteHabit function with the extracted parameters
+                habitManager.deleteHabit(id);
 
                 // Return a success response
                 return crow::response(id);
@@ -242,6 +376,36 @@ int main()
 
                 // Return the notes in the response body
                 return crow::response(notes.dump(2));   //dump is just for formatting notes with indentation of 2
+            }
+            catch (const std::exception &e)
+            {
+                // Print an error message if an exception occurs
+                std::cerr << e.what() << '\n';
+
+                // Return an error response
+                return crow::response(500, "Internal Server Error");
+            } });
+
+    // Route to view all habits
+    CROW_ROUTE(app, "/viewHabit")
+        .methods("GET"_method)([](const crow::request &req)
+                               {
+            try
+            {
+                 // Extract email and password from request headers
+                std::string name = req.get_header_value("name");
+                std::string email = req.get_header_value("email");
+                std::string password = req.get_header_value("password");
+
+                // User user(name, email, password);
+                HabitManager habitManager(name, email, password);
+
+                // Call the getHabits function to get all habits
+                json habits = habitManager.getHabits();
+                // std::cout <<  "Habits::   :::  "<< habits.dump(2);
+
+                // Return the habits in the response body
+                return crow::response(habits.dump(2));   //dump is just for formatting notes with indentation of 2
             }
             catch (const std::exception &e)
             {

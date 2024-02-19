@@ -10,6 +10,7 @@ const std::string User::UserNameColumnName = "userName";
 const std::string User::UserEmailColumnName = "userEmail";
 const std::string User::UserPaswordColumnName = "userPassword";
 const std::string User::UserNotesColumnName = "userNotes";
+const std::string User::UserHabitsColumnName = "userHabits";
 const std::string User::SchemaName = "habitbuddydatabase";
 const std::string User::TableName = "userdatabase";
 
@@ -97,15 +98,27 @@ void User::insertUserToTable()
         Table userDbTable = getTable(mySession);
 
         // REVIEW - Inserting user to database
-        userDbTable.insert(User::UserNameColumnName, User::UserEmailColumnName, User::UserPaswordColumnName, User::UserNotesColumnName).values(this->userName, this->userEmail, this->userPassword, R"([{
+        userDbTable.insert(User::UserNameColumnName, User::UserEmailColumnName, User::UserPaswordColumnName, User::UserNotesColumnName, User::UserHabitsColumnName).values(this->userName, this->userEmail, this->userPassword,
+                         R"([{
                                "id": "abd6af60-1432-4c29-abcb-0d5f5e2c2208",
                                "category": "Study",
-                               "description": "Create New taks like this",
+                               "description": "Create New Habits like this",
                                "done": 0,
                                "endDate": "2024-02-30T13:28:00",
-                               "note": "Your Dummy task",
+                               "note": "Your Dummy Habit",
                                "priority": 3,
                                "startDate": "2024-02-10T13:28:00"
+                               }])",
+                            R"([{
+                               "id": "5bd6af60-1462-4c89-abcb-0d5o5e2c2208",
+                               "category": "Study",
+                               "description": "Create New Habits like this",
+                               "done": 0,
+                               "endDate": "2024-02-30T13:28:00",
+                               "note": "Your Dummy Habit",
+                               "priority": 2,
+                               "startDate": "2024-02-10T13:28:00",
+                               "completedDays": ["2024-02-10T13:28:00", "2024-02-11T13:28:00", "2024-02-12T13:28:00"]
                                }])")
             .execute();
     }
@@ -161,6 +174,7 @@ Row User::selectUserFromTable()
         // std::cout << "     userEmail: " << userData[1] << "\n";
         // std::cout << "  userPassword: " << userData[2] << "\n";
         // std::cout << "     userNotes: " << userData[3] << "\n";
+        // std::cout << "    userHabits: " << userData[4] << "\n";
 
         return userData;
     }

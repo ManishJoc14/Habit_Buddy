@@ -30,14 +30,14 @@ export const add_Note = (
   
   // viewNote
   export const view_Note = ({ name, email, password }) => {
-    return axios.get("http://localhost:3001/viewNote", {
+    return axios.get( `${REACT_APP_BASE_URL}/viewNote`, {
       headers: { name, email, password },
     });
   };
   // deleteNote
   export const delete_Note = ({ id }, { name, email, password }) => {
-    return axios.post(
-      "http://localhost:3001/deleteNote",
+    return axios.delete(
+      `${REACT_APP_BASE_URL}/deleteNote`,
       { id },
       { headers: { name, email, password } }
     );
@@ -46,7 +46,7 @@ export const add_Note = (
   // checkNote
   export const check_Note = ({ id, done }, { name, email, password }) => {
     return axios.post(
-      "http://localhost:3001/checkNote",
+      `${REACT_APP_BASE_URL}/checkNote`,
       { id, done },
       { headers: { name, email, password } }
     );
