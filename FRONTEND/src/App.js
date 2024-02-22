@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import { signupUserAsync } from "./redux/userThunk";
 import { viewNoteAsync } from "./redux/notesThunk";
 import { toast } from 'react-toastify';
+import { viewHabitAsync } from "./redux/habitsThunk";
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const dispatch = useDispatch();
@@ -15,6 +16,7 @@ function App() {
       .unwrap()
       .then(() => {
         dispatch(viewNoteAsync({ ...userCredentials }));
+        dispatch(viewHabitAsync({ ...userCredentials }));
         setIsAuthenticated(true);
         toast.success("Welcome to HabitBuddy");
       })

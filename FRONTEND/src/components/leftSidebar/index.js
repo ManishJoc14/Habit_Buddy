@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux';
 const LeftSideBar = () => {
   const location = useLocation();
   const notes = useSelector((state) => state.notes.notes);
+  const habits = useSelector((state) => state.habits.habits);
   return (
     <>
     <aside
@@ -52,7 +53,7 @@ const LeftSideBar = () => {
             <span className={`material-symbols-outlined sidebarlink-icon ${location.pathname === '/habits' ? 'activelink' : ''}`}>self_improvement</span>
             <span className="flex-1 ms-3 whitespace-nowrap">Habits</span>
             <span className="inline-flex items-center justify-center px-2 ms-3 text-sm font-medium text-gray-800 bg-gray-100 rounded-full dark:bg-gray-700 dark:text-gray-300">
-              My
+              {habits.length}
             </span>
           </span>
           </Link>

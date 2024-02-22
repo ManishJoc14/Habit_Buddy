@@ -3,31 +3,34 @@ import { useSelector } from "react-redux";
 import { Dropdown } from "flowbite-react";
 import { getNextDay } from "../../utils/getNextDay";
 import { getCurrentday } from "./../../utils/getCurrentday";
-import "./Note.css";
+import "../notes/Note.css";
 
-const NoteHeader = ({
+const HabbitHeader = ({
   setNotesToBeRendered,
   noteToBeRendered,
   selecteddate,
   setSelectedDate,
 }) => {
   const currentDate = getCurrentday();
-  const notes = useSelector((state) => state.notes.notes);
+  const habits = useSelector((state) => state.habits.habits);
 
   useEffect(() => {
-    const notesOfSelectedDate = notes.filter((note) => {
-      const startDate = note.startDate.split("T")[0];
-      return selecteddate === startDate;
+    const notesOfSelectedDate = habits.filter((note) => {
+      const startDate = new Date(note.startDate);
+      const endDate = new Date(note.endDate);
+      const selectedDate = new Date(selecteddate);
+
+      return selectedDate >= startDate && selectedDate <= endDate;
     });
     setNotesToBeRendered(notesOfSelectedDate);
-  }, [selecteddate, setNotesToBeRendered, notes]);
+  }, [selecteddate, setNotesToBeRendered, habits]);
 
-  const toadysNotes = notes.filter((note) => {
+  const toadysNotes = habits.filter((note) => {
     const startDate = note.startDate.split("T")[0];
     return currentDate === startDate;
   });
 
-  const tomorrowsNotes = notes.filter((note) => {
+  const tomorrowsNotes = habits.filter((note) => {
     const startDate = note.startDate;
     return startDate.split("T")[0] === getNextDay(currentDate).split("T")[0];
   });
@@ -41,7 +44,7 @@ const NoteHeader = ({
     setSelectedDate(getNextDay(new Date()));
   };
   const setAllNotes = () => {
-    setNotesToBeRendered(notes);
+    setNotesToBeRendered(habits);
   };
 
   const sortByPriority = () => {
@@ -68,14 +71,15 @@ const NoteHeader = ({
     );
     setNotesToBeRendered(completedNotes);
   };
+
   const UnCompletedNotes = () => {
     const copyofNoteToBeRendered = [...noteToBeRendered];
     const uncompletedNotes = copyofNoteToBeRendered.filter(
       (note) =>
-      note.done === false ||
-      note.done === "false" ||
-      note.done === 0 ||
-      note.done === "0"
+        note.done === false ||
+        note.done === "false" ||
+        note.done === 0 ||
+        note.done === "0"
     );
     setNotesToBeRendered(uncompletedNotes);
   };
@@ -106,4 +110,4 @@ const NoteHeader = ({
   );
 };
 
-export default NoteHeader;
+export default HabbitHeader;

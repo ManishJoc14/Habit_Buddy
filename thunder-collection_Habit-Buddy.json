@@ -1,0 +1,392 @@
+{
+    "client": "Thunder Client",
+    "collectionName": "Habit-Buddy",
+    "dateExported": "2024-02-22T17:38:33.913Z",
+    "version": "1.1",
+    "folders": [
+        {
+            "_id": "4b273520-9a27-47cd-b752-e222aad52d4c",
+            "name": "User",
+            "containerId": "",
+            "created": "2024-02-19T08:12:23.057Z",
+            "sortNum": 10000
+        },
+        {
+            "_id": "5baffa52-26f9-46a1-a8d2-9bb8a2349be5",
+            "name": "Notes",
+            "containerId": "",
+            "created": "2024-02-19T08:12:37.655Z",
+            "sortNum": 20000
+        },
+        {
+            "_id": "37abddc5-59ff-4e14-8412-4fd665d3a1b5",
+            "name": "Habits",
+            "containerId": "",
+            "created": "2024-02-19T08:12:44.027Z",
+            "sortNum": 30000
+        }
+    ],
+    "requests": [
+        {
+            "_id": "61392c5f-237d-48a1-be0c-cf4eb062bf32",
+            "colId": "6661432b-3d7e-42d2-8708-58315d72269b",
+            "containerId": "4b273520-9a27-47cd-b752-e222aad52d4c",
+            "name": "CONTINUE",
+            "url": "{{REACT_APP_BASE_URL}}/signup",
+            "method": "POST",
+            "sortNum": 10000,
+            "created": "2024-02-19T08:13:03.374Z",
+            "modified": "2024-02-19T08:26:27.938Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"email\": \"thunder@gmail.com\",\n  \"name\": \"thunder\",\n  \"password\": \"thunder\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "c8c2bea4-5570-4d38-a8f7-a5c817e38ff7",
+            "colId": "6661432b-3d7e-42d2-8708-58315d72269b",
+            "containerId": "37abddc5-59ff-4e14-8412-4fd665d3a1b5",
+            "name": "ADD HABIT",
+            "url": "{{REACT_APP_BASE_URL}}/addHabit",
+            "method": "POST",
+            "sortNum": 10000,
+            "created": "2024-02-19T08:53:26.563Z",
+            "modified": "2024-02-19T11:21:26.591Z",
+            "headers": [
+                {
+                    "name": "email",
+                    "value": "thunder@gmail.com"
+                },
+                {
+                    "name": "name",
+                    "value": "thunder"
+                },
+                {
+                    "name": "password",
+                    "value": "thunder"
+                }
+            ],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"category\": \"Study\",\n  \"description\": \"adding__habit\",\n  \"done\": 0,\n  \"endDate\": \"2024-02-30T13:28:00\",\n  \"id\": \"ab242000-1482-2ct9-abcb-089f40ecc2908\",\n  \"note\": \"thunder__add__habit\",\n  \"priority\": 3,\n  \"startDate\": \"2024-02-10T13:28:00\",\n  \"completedDays\": [\n    \"2024-02-10T13:28:00\",\n    \"2024-02-11T13:28:00\",\n    \"2024-02-12T13:28:00\"\n  ]\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "f2751454-5efd-41c7-bce9-4eea29aa5ba6",
+            "colId": "6661432b-3d7e-42d2-8708-58315d72269b",
+            "containerId": "37abddc5-59ff-4e14-8412-4fd665d3a1b5",
+            "name": "EDIT HABIT",
+            "url": "{{REACT_APP_BASE_URL}}/editNote",
+            "method": "POST",
+            "sortNum": 20000,
+            "created": "2024-02-19T08:53:34.586Z",
+            "modified": "2024-02-19T08:53:34.586Z",
+            "headers": [
+                {
+                    "name": "email",
+                    "value": "thunder@gmail.com"
+                },
+                {
+                    "name": "name",
+                    "value": "thunder"
+                },
+                {
+                    "name": "password",
+                    "value": "thunder"
+                }
+            ],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"category\": \"Study\",\n  \"description\": \" new dummy task\",\n  \"done\": 0,\n  \"endDate\": \"2024-02-30T13:28:00\",\n  \"id\": \"ab342000-1482-2c29-abcb-089f40e2c2908\",\n  \"note\": \"thunder__edit__note\",\n  \"priority\": 3,\n  \"startDate\": \"2024-02-10T13:28:00\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "47bce720-1128-47bb-b155-18ca7aa3c42c",
+            "colId": "6661432b-3d7e-42d2-8708-58315d72269b",
+            "containerId": "5baffa52-26f9-46a1-a8d2-9bb8a2349be5",
+            "name": "ADD NOTE",
+            "url": "{{REACT_APP_BASE_URL}}/addNote",
+            "method": "POST",
+            "sortNum": 30000,
+            "created": "2024-02-19T08:23:36.861Z",
+            "modified": "2024-02-19T08:36:22.629Z",
+            "headers": [
+                {
+                    "name": "email",
+                    "value": "thunder@gmail.com"
+                },
+                {
+                    "name": "name",
+                    "value": "thunder"
+                },
+                {
+                    "name": "password",
+                    "value": "thunder"
+                }
+            ],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"category\": \"Study\",\n  \"description\": \"dummy task\",\n  \"done\": 0,\n  \"endDate\": \"2024-02-30T13:28:00\",\n  \"id\": \"ab342000-1482-2c29-abcb-089f40e2c2908\",\n  \"note\": \"thunder__add__note\",\n  \"priority\": 3,\n  \"startDate\": \"2024-02-10T13:28:00\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "9e8df320-26fd-4515-b02c-35c433bd1800",
+            "colId": "6661432b-3d7e-42d2-8708-58315d72269b",
+            "containerId": "37abddc5-59ff-4e14-8412-4fd665d3a1b5",
+            "name": "DELETE HABIT",
+            "url": "{{REACT_APP_BASE_URL}}/deleteHabit",
+            "method": "DELETE",
+            "sortNum": 30000,
+            "created": "2024-02-19T08:53:40.954Z",
+            "modified": "2024-02-19T10:12:19.338Z",
+            "headers": [
+                {
+                    "name": "email",
+                    "value": "thunder@gmail.com"
+                },
+                {
+                    "name": "name",
+                    "value": "thunder"
+                },
+                {
+                    "name": "password",
+                    "value": "thunder"
+                }
+            ],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"id\": \"5bd6af60-1462-4c89-abcb-0d5o5e2c2208\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "24092f22-0e55-43a2-a776-eb5042cc7f1d",
+            "colId": "6661432b-3d7e-42d2-8708-58315d72269b",
+            "containerId": "5baffa52-26f9-46a1-a8d2-9bb8a2349be5",
+            "name": "EDIT NOTE",
+            "url": "{{REACT_APP_BASE_URL}}/editNote",
+            "method": "POST",
+            "sortNum": 40000,
+            "created": "2024-02-19T08:27:13.898Z",
+            "modified": "2024-02-19T08:37:05.680Z",
+            "headers": [
+                {
+                    "name": "email",
+                    "value": "thunder@gmail.com"
+                },
+                {
+                    "name": "name",
+                    "value": "thunder"
+                },
+                {
+                    "name": "password",
+                    "value": "thunder"
+                }
+            ],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"category\": \"Study\",\n  \"description\": \" new dummy task\",\n  \"done\": 0,\n  \"endDate\": \"2024-02-30T13:28:00\",\n  \"id\": \"ab342000-1482-2c29-abcb-089f40e2c2908\",\n  \"note\": \"thunder__edit__note\",\n  \"priority\": 3,\n  \"startDate\": \"2024-02-10T13:28:00\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "f59fde53-59e5-4dcf-abcb-47c8dbc34de7",
+            "colId": "6661432b-3d7e-42d2-8708-58315d72269b",
+            "containerId": "37abddc5-59ff-4e14-8412-4fd665d3a1b5",
+            "name": "VIEW HABIT",
+            "url": "{{REACT_APP_BASE_URL}}/viewHabit",
+            "method": "GET",
+            "sortNum": 40000,
+            "created": "2024-02-19T08:53:47.716Z",
+            "modified": "2024-02-19T10:02:22.989Z",
+            "headers": [
+                {
+                    "name": "email",
+                    "value": "thunder@gmail.com"
+                },
+                {
+                    "name": "name",
+                    "value": "thunder"
+                },
+                {
+                    "name": "password",
+                    "value": "thunder"
+                }
+            ],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "2ac419b3-5e78-475b-9e23-8580cf6714f7",
+            "colId": "6661432b-3d7e-42d2-8708-58315d72269b",
+            "containerId": "5baffa52-26f9-46a1-a8d2-9bb8a2349be5",
+            "name": "DELETE NOTE",
+            "url": "{{REACT_APP_BASE_URL}}/deleteNote",
+            "method": "DELETE",
+            "sortNum": 50000,
+            "created": "2024-02-19T08:27:47.457Z",
+            "modified": "2024-02-19T08:41:44.991Z",
+            "headers": [
+                {
+                    "name": "email",
+                    "value": "thunder@gmail.com"
+                },
+                {
+                    "name": "name",
+                    "value": "thunder"
+                },
+                {
+                    "name": "password",
+                    "value": "thunder"
+                }
+            ],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"id\": \"ab342000-1482-2c29-abcb-089f40e2c2908\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "c6a5799a-e4ac-4868-aab0-b9c82cd81d98",
+            "colId": "6661432b-3d7e-42d2-8708-58315d72269b",
+            "containerId": "37abddc5-59ff-4e14-8412-4fd665d3a1b5",
+            "name": "CHECK HABIT",
+            "url": "{{REACT_APP_BASE_URL}}/checkHabit",
+            "method": "POST",
+            "sortNum": 50000,
+            "created": "2024-02-19T08:53:53.243Z",
+            "modified": "2024-02-19T11:37:01.545Z",
+            "headers": [
+                {
+                    "name": "email",
+                    "value": "thunder@gmail.com"
+                },
+                {
+                    "name": "name",
+                    "value": "thunder"
+                },
+                {
+                    "name": "password",
+                    "value": "thunder"
+                }
+            ],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"id\": \"ab242000-1482-2ct9-abcb-089f40ecc2908\",\n  \"done\": 0\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "76f49fbe-7af7-4f7b-9d2c-9becf5c67ab2",
+            "colId": "6661432b-3d7e-42d2-8708-58315d72269b",
+            "containerId": "5baffa52-26f9-46a1-a8d2-9bb8a2349be5",
+            "name": "VIEW NOTES",
+            "url": "{{REACT_APP_BASE_URL}}/viewNote",
+            "method": "GET",
+            "sortNum": 60000,
+            "created": "2024-02-19T08:27:58.672Z",
+            "modified": "2024-02-19T08:29:33.165Z",
+            "headers": [
+                {
+                    "name": "email",
+                    "value": "thunder@gmail.com"
+                },
+                {
+                    "name": "name",
+                    "value": "thunder"
+                },
+                {
+                    "name": "password",
+                    "value": "thunder"
+                }
+            ],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "2a36f8de-3ee4-4a14-b93f-41a701699823",
+            "colId": "6661432b-3d7e-42d2-8708-58315d72269b",
+            "containerId": "4b273520-9a27-47cd-b752-e222aad52d4c",
+            "name": "CHANGE DETAILS",
+            "url": "{{REACT_APP_BASE_URL}}/changeDetails",
+            "method": "POST",
+            "sortNum": 70000,
+            "created": "2024-02-19T08:30:05.525Z",
+            "modified": "2024-02-19T08:33:38.310Z",
+            "headers": [
+                {
+                    "name": "email",
+                    "value": "thunder@gmail.com"
+                },
+                {
+                    "name": "name",
+                    "value": "thunder"
+                },
+                {
+                    "name": "password",
+                    "value": "thunder"
+                }
+            ],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"newEmail\": \"thunderNEW@gmail.com\",\n  \"newName\": \"thunder\",\n  \"newPassword\": \"thunder\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "e09ce4e6-6ac4-4b83-8799-e94f498be967",
+            "colId": "6661432b-3d7e-42d2-8708-58315d72269b",
+            "containerId": "5baffa52-26f9-46a1-a8d2-9bb8a2349be5",
+            "name": "CHECK NOTE",
+            "url": "{{REACT_APP_BASE_URL}}/checkNote",
+            "method": "POST",
+            "sortNum": 80000,
+            "created": "2024-02-19T08:46:30.824Z",
+            "modified": "2024-02-19T09:56:59.356Z",
+            "headers": [
+                {
+                    "name": "email",
+                    "value": "thunder@gmail.com"
+                },
+                {
+                    "name": "name",
+                    "value": "thunder"
+                },
+                {
+                    "name": "password",
+                    "value": "thunder"
+                }
+            ],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"id\": \"ab342000-1482-2c29-abcb-089f40e2c2908\",\n  \"done\": 0\n}",
+                "form": []
+            },
+            "tests": []
+        }
+    ]
+}

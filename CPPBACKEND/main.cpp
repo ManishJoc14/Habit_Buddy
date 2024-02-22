@@ -339,6 +339,7 @@ int main()
 
                 // Extract parameters from the parsed JSON data
                 std::string id = requestData["id"];
+                std::cout << "Id of habit to be deleted: " << id;
                 HabitManager habitManager(name, email, password);
 
                 // Call the deleteHabit function with the extracted parameters
