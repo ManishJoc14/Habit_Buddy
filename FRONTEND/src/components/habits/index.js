@@ -9,7 +9,7 @@ import Calenderstrip from "../calenderStrip";
 import { toast } from "react-toastify";
 import { checkHabitAsync, deleteHabitAsync } from "../../redux/habitsThunk";
 import EditHabitModal from "./../editHabitModal/index";
-import HabbitHeader from './HabitHeader';
+import HabbitHeader from "./HabitHeader";
 
 const Habits = () => {
   const [noteToBeRendered, setNotesToBeRendered] = useState([]);
@@ -41,7 +41,12 @@ const Habits = () => {
       );
 
       if (userCredentials) {
-        dispatch(checkHabitAsync([{ id, done }, userCredentials]));
+        dispatch(
+          checkHabitAsync([
+            { id, done, today: getCurrentday() },
+            userCredentials,
+          ])
+        );
         done ? toast.success("Unchecked !!") : toast.success("Checked !!");
       } else {
         toast.error("sigup first !!");
@@ -132,7 +137,7 @@ const Habits = () => {
           </>
         ) : (
           <>
-            <h3>No notes available...</h3>
+            <h3>No Habits available...</h3>
           </>
         )}
       </div>

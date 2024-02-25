@@ -268,12 +268,13 @@ int main()
                 // std::cout << requestData.dump(2);
 
                 // Extract parameters from the parsed JSON data
-                std::string id = requestData["id"];
+                std::string id = requestData["id"]; 
+                std::string today = requestData["today"]; 
                 int done = requestData["done"];
                 HabitManager habitManager(name, email, password);
 
                 // Call the checkHabit function with the extracted parameters
-                habitManager.checkHabit(id, done);
+                habitManager.checkHabit(id, done, today);
 
                 // Return a success response
                 return crow::response(id);
@@ -324,7 +325,7 @@ int main()
 
     // Route to delete a habit
     CROW_ROUTE(app, "/deleteHabit")
-        .methods("DELETE"_method)([](const crow::request &req)
+        .methods("POST"_method)([](const crow::request &req)
                                   {
             try
             {
@@ -335,7 +336,7 @@ int main()
 
                 // Parse JSON data from the request body
                 json requestData = json::parse(req.body);
-                // std::cout << requestData.dump(2);
+                std::cout << requestData.dump(2);
 
                 // Extract parameters from the parsed JSON data
                 std::string id = requestData["id"];

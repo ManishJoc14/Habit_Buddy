@@ -37,7 +37,7 @@ json HabitManager::convertHabitToJSON(const mysqlx::Value &habit)
     int length = 0;
     int index = 0;
 
-    //to calculate length of array
+    // to calculate length of array
     for (auto completedDay : completedDays)
     {
         ++length;
@@ -201,26 +201,37 @@ void HabitManager::editHabit(const json &newHabit)
     }
 }
 
-void HabitManager::checkHabit(const std::string &id, int done)
+void HabitManager::checkHabit(const std::string &id, int done, const std::string &today)
 {
     try
     {
         // Iterate over habits to find the habit with the specified ID
         for (auto &habit : habits)
         {
+            int i = 0;
             if (habit["id"] == id)
             {
                 // Update the "done" field for the found habit
                 if (done == 1)
                 {
                     habit["done"] = 0;
+                    std::cout << habit["completedDays"];
+                    habit["completedDays"].erase(std::remove_if(habit["completedDays"].begin(), habit["completedDays"].end(),
+                                                                [&today](const json &day)
+                                                                { return day == today; }),
+                                                 habit["completedDays"].end());
                 }
 
                 if (done == 0)
                 {
                     habit["done"] = 1;
+                    bool isAlreadyCompleted = !habit["completedDays"].empty() && (habit["completedDays"].back() == today);
+                    if (!isAlreadyCompleted)
+                    {
+                        habit["completedDays"].push_back(today);
+                    }
                 }
-
+                i++;
                 // Save the updated habits to the database
                 saveHabitsToDatabase();
 

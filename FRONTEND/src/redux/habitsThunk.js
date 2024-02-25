@@ -40,9 +40,9 @@ export const deleteHabitAsync = createAsyncThunk(
 
 export const checkHabitAsync = createAsyncThunk(
   "habitsManager/checkHabitAsync",
-  async ([{id, done}, userCredentials],thunkAPI) => {
+  async ([{id, done, today}, userCredentials],thunkAPI) => {
     try {
-      const response = await check_Habit({id, done}, userCredentials);
+      const response = await check_Habit({id, done, today}, userCredentials);
       return response?.data; //id of habit
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response.data);

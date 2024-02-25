@@ -36,7 +36,7 @@ export const add_Habit = (
   };
   // deleteHabit
   export const delete_Habit = ({ id }, { name, email, password }) => {
-    return axios.delete(
+    return axios.post(
       `${REACT_APP_BASE_URL}/deleteHabit`,
       { id },
       { headers: { name, email, password } }
@@ -44,10 +44,10 @@ export const add_Habit = (
   };
   
   // checkHabit
-  export const check_Habit = ({ id, done }, { name, email, password }) => {
+  export const check_Habit = ({ id, done, today }, { name, email, password }) => {
     return axios.post(
       `${REACT_APP_BASE_URL}/checkHabit`,
-      { id, done },
+      { id, done, today },
       { headers: { name, email, password } }
     );
   };

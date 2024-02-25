@@ -20,6 +20,6 @@ public:
     void saveHabitsToDatabase();
     void addHabit(const json &newHabit);
     void editHabit(const json &newHabit);
-    void checkHabit(const std::string &id, int done);
+    void checkHabit(const std::string &id, int done, const std::string &today);
     void deleteHabit(const std::string &id);
 };

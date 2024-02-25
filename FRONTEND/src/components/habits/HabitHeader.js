@@ -103,7 +103,7 @@ const HabbitHeader = ({
           <Dropdown.Item onClick={sortByPriority}>SortByPriority</Dropdown.Item>
           <Dropdown.Item onClick={suffleNotes}>Shuffle</Dropdown.Item>
           <Dropdown.Item onClick={setCompletedNotes}>Completed</Dropdown.Item>
-          <Dropdown.Item onClick={UnCompletedNotes}>Unompleted</Dropdown.Item>
+          <Dropdown.Item onClick={UnCompletedNotes}>Uncompleted</Dropdown.Item>
         </Dropdown>
       </div>
     </>
