@@ -1,4 +1,11 @@
+.habitTitle{
+    font-size: 1.5rem;
+    margin-left: 20px;
+    margin-bottom: 20px;
+}
+
 .mainHabitDashboard{
+    width: 100%;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -6,7 +13,14 @@
 }
 .HabitBox{
     margin: 10px;
-    background-color: #eeeeee;
     padding: 20px 50px;
-    width: 40rem;
+    max-width: 50rem !important;
+    width: 30rem !important;
+    min-width: 20rem !important;
+}
+.habitName{
+    font-size: 22px;
+}
+.detailhabit{
+    font-style: 20px;
 }

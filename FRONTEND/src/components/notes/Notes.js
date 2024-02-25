@@ -75,7 +75,7 @@ const Notes = () => {
           <>
             {noteToBeRendered.map((note) => (
               <div
-                className={` rounded bg-gray-50 dark:bg-gray-800 note-box ${note.category}`}
+                className={`rounded bg-gray-50 dark:bg-gray-800 note-box ${note.category}`}
                 key={note.id}
               >
                 <span className="note-header">
